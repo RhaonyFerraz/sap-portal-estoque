@@ -1,0 +1,49 @@
+{
+  "name": "SAP BTP - Portal de Logística & Estoque RF",
+  "short_name": "SAP Estoque RF",
+  "description": "Coletor móvel e apontamento de estoque para chão de fábrica conectado ao SAP BTP",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0b1329",
+  "theme_color": "#0070f2",
+  "categories": ["business", "productivity", "utilities"],
+  "lang": "pt-BR",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Coletor de Estoque",
+      "short_name": "Coletor",
+      "description": "Apontamento direto no chão de fábrica",
+      "url": "/#tabCollector",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Cockpit Analítico",
+      "short_name": "Cockpit",
+      "description": "Posição de estoque e alertas em tempo real",
+      "url": "/#tabCockpit",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}

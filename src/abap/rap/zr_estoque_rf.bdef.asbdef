@@ -1,0 +1,42 @@
+managed implementation in class zbp_r_estoque_rf unique;
+strict ( 2 );
+
+define behavior for ZR_ESTOQUE_RF alias Movimento
+persistent table ztab_estoque_rf
+lock master
+authorization master ( instance )
+etag master LastChangedAt
+{
+  create;
+  update;
+  delete;
+
+  field ( readonly, numbering : managed ) MovUuid;
+  field ( readonly ) DocMaterial, AnoDoc, CreatedAt, LastChangedAt, Status, Mensagem;
+  field ( mandatory ) TipoMovimento, Material, Centro, Deposito, Quantidade, Unidade;
+
+  validation validarDados on save { create; }
+  determination determinarDocumento on modify { create; }
+
+  mapping for ztab_estoque_rf
+  {
+    MovUuid        = mov_uuid;
+    DocMaterial    = doc_material;
+    AnoDoc         = ano_doc;
+    TipoMovimento  = tipo_movimento;
+    Material       = material;
+    Descricao      = descricao;
+    Centro         = centro;
+    Deposito       = deposito;
+    DepositoDest   = deposito_dest;
+    Lote           = lote;
+    OrdemProducao  = ordem_producao;
+    Quantidade     = quantidade;
+    Unidade        = unidade;
+    Status         = status;
+    Mensagem       = mensagem;
+    Operador       = operador;
+    CreatedAt      = created_at;
+    LastChangedAt  = last_changed_at;
+  }
+}

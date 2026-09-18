@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SAP BTP - Portal de Logística & Apontamento de Estoque RF</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <!-- Configurações PWA (Mobile / Coletor Zebra / App Nativo) -->
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#0070f2">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="SAP RF Estoque">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <link rel="icon" type="image/svg+xml" href="/icons/icon.svg">
+  <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png">
+  <!-- JsBarcode para geração de código de barras -->
+  <!-- Chart.js para gráficos do Cockpit -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
+</head>
+<body>
+
+  <!-- Efeito visual de Flash ao Bipar Código de Barras -->
+  <div id="scannerFlash"></div>
+
+  <!-- Header Fiori Moderno -->
+  <header class="app-header">
+    <div class="brand-section">
+      <span class="sap-logo-badge">SAP BTP</span>
+      <div>
+        <h1 class="brand-title">
+          Portal de Logística & Estoque RF
+        </h1>
+        <p class="brand-subtitle">Apontamento em Chão de Fábrica & Redução de Licenças SAP</p>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <!-- Indicador de Status BTP -->
+      <div id="headerStatusPill" class="status-pill">
+        <span class="status-dot"></span>
+        <span id="headerStatusText">Modo Demo / Offline</span>
+      </div>
+
+      <!-- Navegação por Abas -->
+      <nav class="nav-tabs">
+        <button id="tabCollector" class="tab-btn active">
+          📦 Coletor RF
+        </button>
+        <button id="tabCockpit" class="tab-btn">
+          📊 Cockpit & ROI
+        </button>
+      </nav>
+
+      <!-- Indicador de Fila Offline (Sincronização Resiliente) -->
+      <button id="btnOfflineQueue" class="btn-offline-queue" style="display: none;" title="Ver Fila de Apontamentos Offline">
+        <span class="pulse-queue-dot"></span>
+        <span id="queueBadgeCount">0 pendentes</span>
+      </button>
+
+      <!-- Botão de Instalação PWA (Dispositivos Móveis / Celular / Coletor) -->
+      <button id="btnInstallPwa" class="btn-install-pwa" style="display: none;" title="Instalar aplicativo no dispositivo móvel ou coletor">
+        <span>📲</span> Instalar App
+      </button>
+
+      <!-- Botão de Configuração de Integração BTP -->
+      <button id="btnBtpConfig" class="btn-secondary" style="padding: 8px 14px; font-size: 0.85rem;" title="Configurações de Conexão SAP BTP">
+        ⚙️ Conectar BTP
+      </button>
+    </div>
+  </header>
+
+  <!-- Conteúdo Principal -->
+  <main class="main-content">
+
+    <!-- ================================================================= -->
+    <!-- ABA 1: COLETOR RF / CHÃO DE FÁBRICA -->
+    <!-- ================================================================= -->
+    <section id="viewCollector" class="view-section active">
+      <div class="collector-grid">
+        
+        <!-- Formulário do Operador -->
+        <div class="glass-card">
+          <div class="card-header-clean">
+            <h2 class="card-title">
+              <span>🎯</span> Operação de Movimentação
+            </h2>
+            <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+              <!-- Botão Toggle de Som Industrial -->
+              <button type="button" id="btnToggleSound" class="feedback-pill-btn active" title="Alternar Bip Sonoro Industrial (Zebra/Honeywell)">
+                <span id="soundIcon">🔊</span> Bip
+              </button>
+              <!-- Botão Toggle de Vibração Háptica -->
+              <button type="button" id="btnToggleHaptic" class="feedback-pill-btn active" title="Alternar Vibração Háptica no Celular/Coletor">
+                <span id="hapticIcon">📳</span> Vibração
+              </button>
+              <!-- Botão Testar Feedback -->
+              <button type="button" id="btnTestFeedback" class="feedback-pill-btn test-btn" title="Testar Bip e Vibração">
+                ▶️ Testar
+              </button>
+            </div>
+          </div>
+
+          <!-- Seleção Rápida de Tipo de Movimento -->
+          <div class="movement-type-selector">
+            <div class="movement-radio-card selected-101" data-mov="101" id="btnMov101">
+              <span class="mov-code">101</span>
+              <div class="mov-title">Entrada / Compra</div>
+              <div class="mov-desc">Recebimento de Fornecedor</div>
+            </div>
+            <div class="movement-radio-card" data-mov="261" id="btnMov261">
+              <span class="mov-code">261</span>
+              <div class="mov-title">Baixa / Consumo</div>
+              <div class="mov-desc">Ordem de Produção</div>
+            </div>
+            <div class="movement-radio-card" data-mov="311" id="btnMov311">
+              <span class="mov-code">311</span>
+              <div class="mov-title">Transferência</div>
+              <div class="mov-desc">Entre Depósitos</div>
+            </div>
+          </div>
+
+          <!-- Formulário -->
+          <form id="movementForm">
+            <div class="form-grid">
+              
+              <!-- Material -->
+              <div class="form-group-full">
+                <label class="input-label" for="inputMaterial">
+                  <span>Código do Material (Bipar ou Digitar)</span>
+                  <span style="color: var(--sap-accent); font-size: 0.75rem;">★ Campo Chave</span>
+                </label>
+                <div class="input-container">
+                  <input type="text" id="inputMaterial" class="sap-input" placeholder="Ex: MAT-1001" required autocomplete="off">
+                  <button type="button" class="input-action-btn" onclick="window.barcodeScanner.triggerScan('MAT-1001')">
+                    ⚡ Bipar
+                  </button>
+                  <button type="button" id="btnOpenScanner" class="input-action-btn btn-scanner-camera" title="Abrir Leitor de Câmera">
+                    📷 Câmera
+                  </button>
+                </div>
+              </div>
+
+              <!-- Saldo Atual Preview (Feedback em Tempo Real) -->
+              <div id="stockPreviewBadge" class="stock-preview-badge" style="display: none;">
+                <div>
+                  <div class="stock-preview-title">Saldo Disponível no Depósito:</div>
+                  <div id="stockPreviewDesc" style="font-size: 0.85rem; color: #cbd5e1;">-</div>
+                </div>
+                <div id="stockPreviewValue" class="stock-preview-value">0 UN</div>
+              </div>
+
+              <!-- Centro & Depósito Origem -->
+              <div>
+                <label class="input-label" for="inputCentro">Centro Logístico</label>
+                <input type="text" id="inputCentro" class="sap-input" value="1000" required>
+              </div>
+              <div>
+                <label class="input-label" for="inputDeposito">Depósito Origem</label>
+                <input type="text" id="inputDeposito" class="sap-input" value="1010" required>
+              </div>
+
+              <!-- Depósito Destino (Apenas no movimento 311) -->
+              <div id="groupDepositoDest" class="form-group-full" style="display: none;">
+                <label class="input-label" for="inputDepositoDest">Depósito Destino (Transferência 311)</label>
+                <input type="text" id="inputDepositoDest" class="sap-input" value="1020" placeholder="Ex: 1020 - Linha de Montagem">
+              </div>
+
+              <!-- Ordem de Produção (Apenas no movimento 261) -->
+              <div id="groupOrdem" class="form-group-full" style="display: none;">
+                <label class="input-label" for="inputOrdem">Ordem de Produção (Consumo 261)</label>
+                <input type="text" id="inputOrdem" class="sap-input" value="OP100984" placeholder="Ex: OP100984">
+              </div>
+
+              <!-- Lote -->
+              <div>
+                <label class="input-label" for="inputLote">Lote</label>
+                <input type="text" id="inputLote" class="sap-input" value="LOTE-A1" required>
+              </div>
+
+              <!-- Quantidade & UN -->
+              <div style="display: flex; gap: 10px;">
+                <div style="flex: 2;">
+                  <label class="input-label" for="inputQuantidade">Quantidade</label>
+                  <input type="number" id="inputQuantidade" class="sap-input" step="any" min="0.001" placeholder="Qtd" required>
+                </div>
+                <div style="flex: 1;">
+                  <label class="input-label" for="inputUnidade">UN</label>
+                  <input type="text" id="inputUnidade" class="sap-input" value="UN" required>
+                </div>
+              </div>
+
+              <!-- Operador -->
+              <div class="form-group-full">
+                <label class="input-label" for="inputOperador">Operador Logístico</label>
+                <input type="text" id="inputOperador" class="sap-input" value="OPERADOR_01">
+              </div>
+
+            </div>
+
+            <!-- Ações -->
+            <div class="action-footer">
+              <button type="submit" class="btn-primary-large" id="btnConfirmar">
+                <span>📡</span> Confirmar & Postar no SAP
+              </button>
+              <button type="button" class="btn-secondary" id="btnResetForm">
+                Limpar
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Painel Lateral: Simulador de Leitor de Barras -->
+        <div class="glass-card">
+          <div class="card-header-clean">
+            <h3 class="card-title" style="font-size: 1.1rem;">
+              <span>📶</span> Bipagem Rápida
+            </h3>
+          </div>
+          <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 16px;">
+            Clique nos códigos de barras abaixo para simular a leitura de etiquetas RFID / Barcode com bip industrial sonoro:
+          </p>
+
+          <div class="barcode-samples-container">
+            <div class="sample-chip" data-code="MAT-1001">
+              <div>
+                <div class="sample-code">MAT-1001</div>
+                <div class="sample-name">Parafuso M8x40 Aço Carbono</div>
+              </div>
+              <span style="font-size: 1.2rem;">🏷️</span>
+            </div>
+
+            <div class="sample-chip" data-code="MAT-2002">
+              <div>
+                <div class="sample-code">MAT-2002</div>
+                <div class="sample-name">Motor Elétrico Trifásico 2CV</div>
+              </div>
+              <span style="font-size: 1.2rem;">🏷️</span>
+            </div>
+
+            <div class="sample-chip" data-code="MAT-3003">
+              <div>
+                <div class="sample-code">MAT-3003</div>
+                <div class="sample-name">Chapa Inox 304 2mm</div>
+              </div>
+              <span style="font-size: 1.2rem;">🏷️</span>
+            </div>
+
+            <div class="sample-chip" data-code="MAT-4004">
+              <div>
+                <div class="sample-code">MAT-4004</div>
+                <div class="sample-name">Rolamento Blindado 6204</div>
+              </div>
+              <span style="font-size: 1.2rem;">🏷️</span>
+            </div>
+
+            <div class="sample-chip" data-code="MAT-5005">
+              <div>
+                <div class="sample-code">MAT-5005</div>
+                <div class="sample-name">Graxa Lubrificante Sintética</div>
+              </div>
+              <span style="font-size: 1.2rem;">🏷️</span>
+            </div>
+
+            <!-- Amostras de Código GS1-128 / DataMatrix Multi-Dados -->
+            <div style="margin-top: 14px; padding-top: 12px; border-top: 1px dashed rgba(255,255,255,0.1);">
+              <span class="input-label" style="display:flex; align-items:center; gap:6px; color:#38bdf8; margin-bottom: 6px;">
+                <span>🌐</span> Padrão GS1-128 / DataMatrix (Multi-Dados)
+              </span>
+              <p style="font-size: 0.72rem; color: var(--text-muted); margin-bottom: 8px;">
+                Decodifica Material, Lote e Quantidade em 1 único bip:
+              </p>
+
+              <div class="sample-chip" data-code="(01)07891234567890(10)LOTE-A1(30)150" style="border-color: rgba(56,189,248,0.35);">
+                <div>
+                  <div class="sample-code" style="color:#38bdf8;">GS1: Parafuso M8 (150 UN)</div>
+                  <div class="sample-name">(01)MAT-1001 + (10)LOTE-A1 + (30)150</div>
+                </div>
+                <span style="font-size: 1.2rem;">📦</span>
+              </div>
+
+              <div class="sample-chip" data-code="(01)07891234567891(10)LOTE-B2(30)25(90)OP100984" style="border-color: rgba(56,189,248,0.35);">
+                <div>
+                  <div class="sample-code" style="color:#38bdf8;">GS1: Motor 2CV + Ordem OP</div>
+                  <div class="sample-name">(01)MAT-2002 + LOTE-B2 + 25 UN + OP</div>
+                </div>
+                <span style="font-size: 1.2rem;">⚡</span>
+              </div>
+
+              <div class="sample-chip" data-code="MAT:MAT-4004|LOTE:LOTE-D4|QTD:40|DEP:1020" style="border-color: rgba(52,211,153,0.35);">
+                <div>
+                  <div class="sample-code" style="color:#34d399;">DataMatrix 2D: Rolamento</div>
+                  <div class="sample-name">MAT-4004 | LOTE-D4 | 40 UN | Dep. 1020</div>
+                </div>
+                <span style="font-size: 1.2rem;">🔲</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--border-subtle);">
+            <div style="font-size: 0.8rem; font-weight: 700; color: var(--text-secondary); margin-bottom: 8px;">
+              💡 DICA DE TESTE DE VALIDAÇÃO:
+            </div>
+            <p style="font-size: 0.78rem; color: var(--text-muted); line-height: 1.4;">
+              Selecione o movimento <strong>261 (Baixa)</strong> no material <code>MAT-2002</code> (que tem 48 UN) e tente baixar <strong>100 UN</strong>. Observe a rejeição da regra de negócio e o alerta sonoro grave do coletor!
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- ABA 2: COCKPIT GERENCIAL & DASHBOARD ROI -->
+    <!-- ================================================================= -->
+    <section id="viewCockpit" class="view-section">
+      
+      <!-- Banner de ROI e Economia de Licenças -->
+      <div class="roi-banner">
+        <div>
+          <span class="roi-badge">BUSINESS CASE & ECONOMIA DE LICENÇAS</span>
+          <h2 class="roi-title">Economia Drástica em Licenças SAP ERP</h2>
+          <p class="roi-desc">
+            Ao utilizar o SAP BTP como camada centralizada de orquestração OData V4 para operadores de galpão, a sua empresa elimina a necessidade de licenças individuais caras de usuário SAP (FOC / Professional), mantendo conformidade total de Digital Access com segurança empresarial e alta performance.
+          </p>
+        </div>
+
+        <div class="roi-calculator-box">
+          <div style="font-size: 0.75rem; font-weight: 700; color: var(--text-secondary);">ECONOMIA ANUAL ESTIMADA</div>
+          <div id="roiSavingsAmount" class="roi-savings-number">US$ 84.000/ano</div>
+          
+          <div style="margin-top: 10px;">
+            <label style="font-size: 0.75rem; color: var(--text-muted);">
+              Operadores no Galpão: <strong id="labelOperatorsCount" style="color:#fff;">50</strong>
+            </label>
+            <input type="range" id="sliderOperators" class="roi-slider-control" min="5" max="250" value="50">
+          </div>
+
+          <div style="display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--text-muted); margin-top: 8px;">
+            <span>SAP Tradicional: <span id="roiTradCost" style="color:#f87171;">US$ 90.000</span></span>
+            <span>Com Portal BTP: <span id="roiBtpCost" style="color:#34d399;">US$ 6.000</span></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- KPIs Rápidos -->
+      <div class="cockpit-grid">
+        <div class="kpi-card">
+          <div class="kpi-title">Materiais Monitorados</div>
+          <div id="kpiTotalItems" class="kpi-number">5</div>
+          <div class="kpi-subtext">Saldos ativos no HANA</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-title">Volume Total em Estoque</div>
+          <div id="kpiTotalQty" class="kpi-number">1.718</div>
+          <div class="kpi-subtext">Unidades físicas</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-title">Movimentações Registradas</div>
+          <div id="kpiTotalMovs" class="kpi-number">4</div>
+          <div class="kpi-subtext">Histórico completo</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-title">Estoque Crítico 🚨</div>
+          <div id="kpiCriticos" class="kpi-number" style="color:#f87171;">0</div>
+          <div class="kpi-subtext" style="color:#f87171;">Abaixo do ponto mín.</div>
+        </div>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- PAINEL DE ALERTAS DE ESTOQUE CRÍTICO -->
+      <!-- ============================================================ -->
+      <div id="alertPanel" class="alert-panel" style="display:none; margin-bottom:24px;">
+        <div class="alert-panel-header">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <span class="alert-pulse-icon">🚨</span>
+            <div>
+              <div class="alert-panel-title">Alertas de Estoque Crítico</div>
+              <div class="alert-panel-sub">Materiais abaixo do ponto mínimo de reposição</div>
+            </div>
+          </div>
+          <span id="alertBadgeCount" class="alert-count-badge">0 alertas</span>
+        </div>
+        <div id="alertList" class="alert-list">
+          <!-- Preenchido via JS -->
+        </div>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- GRÁFICOS ANALÍTICOS -->
+      <!-- ============================================================ -->
+      <div class="charts-grid">
+
+        <!-- Gráfico 1: Saldo Atual por Material (Barras) -->
+        <div class="glass-card chart-card">
+          <div class="card-header-clean">
+            <h3 class="card-title"><span>📊</span> Saldo por Material</h3>
+            <span class="chart-badge">Tempo Real</span>
+          </div>
+          <div class="chart-wrapper">
+            <canvas id="chartStockBar"></canvas>
+          </div>
+        </div>
+
+        <!-- Gráfico 2: Distribuição por Depósito (Donut) -->
+        <div class="glass-card chart-card">
+          <div class="card-header-clean">
+            <h3 class="card-title"><span>🍩</span> Distribuição por Depósito</h3>
+            <span class="chart-badge">Por Localização</span>
+          </div>
+          <div class="chart-wrapper chart-wrapper-donut">
+            <canvas id="chartDepositDonut"></canvas>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Gráfico 3: Histórico de Movimentações (Linha) -->
+      <div class="glass-card" style="margin-bottom:24px;">
+        <div class="card-header-clean">
+          <h3 class="card-title"><span>📈</span> Histórico de Movimentações (Últimas 24h)</h3>
+          <div style="display:flex; gap:12px; align-items:center;">
+            <span class="chart-legend-dot" style="background:#10b981;"></span><span style="font-size:0.75rem; color:var(--text-secondary);">Entrada 101</span>
+            <span class="chart-legend-dot" style="background:#f87171;"></span><span style="font-size:0.75rem; color:var(--text-secondary);">Saída 261</span>
+            <span class="chart-legend-dot" style="background:#fbbf24;"></span><span style="font-size:0.75rem; color:var(--text-secondary);">Transfer. 311</span>
+          </div>
+        </div>
+        <div class="chart-wrapper chart-wrapper-wide">
+          <canvas id="chartMovHistory"></canvas>
+        </div>
+      </div>
+
+      <!-- Tabela de Saldos em Tempo Real -->
+      <div class="glass-card" style="margin-bottom: 24px;">
+        <div class="card-header-clean">
+          <h3 class="card-title">
+            <span>📊</span> Posição de Estoque em Tempo Real (ZTAB_SALDO_RF)
+          </h3>
+        </div>
+        <div class="table-responsive">
+          <table class="sap-table">
+            <thead>
+              <tr>
+                <th>Material</th>
+                <th>Descrição</th>
+                <th>Centro</th>
+                <th>Depósito</th>
+                <th>Lote</th>
+                <th>Quantidade Atual</th>
+                <th>Último Movimento</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="tbodySaldos">
+              <!-- Preenchido via Javascript -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Tabela de Auditoria de Movimentações -->
+      <div class="glass-card">
+        <div class="card-header-clean">
+          <h3 class="card-title">
+            <span>📋</span> Auditoria de Movimentações Recentes (ZTAB_ESTOQUE_RF)
+          </h3>
+        </div>
+        <div class="table-responsive">
+          <table class="sap-table">
+            <thead>
+              <tr>
+                <th>Doc. Material</th>
+                <th>Tipo</th>
+                <th>Material</th>
+                <th>Fluxo Depósito</th>
+                <th>Lote</th>
+                <th>Quantidade</th>
+                <th>Operador</th>
+                <th>Hora</th>
+              </tr>
+            </thead>
+            <tbody id="tbodyMovs">
+              <!-- Preenchido via Javascript -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ================================================================= -->
+  <!-- MODAL: IMPRESSÃO DE ETIQUETA INDUSTRIAL -->
+  <!-- ================================================================= -->
+  <div id="labelPrintModal" class="label-modal" style="display: none;">
+    <div class="label-dialog">
+      <!-- Header do Modal -->
+      <div class="label-dialog-header">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <span style="font-size:1.5rem;">🏷️</span>
+          <div>
+            <h3 style="margin:0; font-size:1.05rem; color:#fff; font-weight:700;">Impressão de Etiqueta Industrial</h3>
+            <p style="margin:0; font-size:0.75rem; color:var(--text-secondary);">Preview e configuração antes de imprimir</p>
+          </div>
+        </div>
+        <button id="btnCloseLabelModal" style="background:none; border:none; color:var(--text-secondary); font-size:1.6rem; cursor:pointer; line-height:1;">&times;</button>
+      </div>
+
+      <div class="label-dialog-body">
+        <!-- Coluna Esquerda: Preview da Etiqueta -->
+        <div class="label-preview-col">
+          <div style="font-size:0.75rem; font-weight:700; color:var(--text-secondary); margin-bottom:10px; text-transform:uppercase; letter-spacing:0.05em;">📄 Preview da Etiqueta</div>
+
+          <!-- Etiqueta Preview (cartão branco simulando papel) -->
+          <div id="labelPreviewCard" class="label-preview-card">
+            <!-- Header da etiqueta -->
+            <div class="lp-header">
+              <span class="lp-company">SAP BTP | PORTAL ESTOQUE RF</span>
+              <span id="lblMovBadge" class="lp-mov-badge">EST</span>
+            </div>
+
+            <!-- Código do Material (destaque) -->
+            <div id="lblMaterial" class="lp-material">MAT-0000</div>
+
+            <!-- Descrição -->
+            <div id="lblDescricaoRow">
+              <div id="lblDescricao" class="lp-descricao">Descrição do produto</div>
+            </div>
+
+            <!-- Grid de Informações -->
+            <div class="lp-info-grid">
+              <div id="lblLoteRow" class="lp-info-item">
+                <label>Lote</label>
+                <span id="lblLote">-</span>
+              </div>
+              <div id="lblQtdRow" class="lp-info-item">
+                <label>Quantidade</label>
+                <span id="lblQtd" class="lp-qty-highlight">0 UN</span>
+              </div>
+              <div id="lblCentroRow" class="lp-info-item">
+                <label>Centro</label>
+                <span id="lblCentro">-</span>
+              </div>
+              <div id="lblDepositoRow" class="lp-info-item">
+                <label>Depósito</label>
+                <span id="lblDeposito">-</span>
+              </div>
+            </div>
+
+            <!-- Código de Barras (CODE128) -->
+            <div class="lp-barcode-wrap">
+              <svg id="labelBarcodeSvg"></svg>
+            </div>
+
+            <!-- Rodapé da etiqueta -->
+            <div class="lp-footer">
+              <span>🏭 Portal de Apontamento RF</span>
+              <span id="lblDataImpressao">--/--/---- --:--</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Coluna Direita: Configurações de Impressão -->
+        <div class="label-config-col">
+          <div style="font-size:0.75rem; font-weight:700; color:var(--text-secondary); margin-bottom:12px; text-transform:uppercase; letter-spacing:0.05em;">⚙️ Configurações</div>
+
+          <!-- Número de Cópias -->
+          <div class="label-config-group">
+            <label class="input-label">Número de Cópias</label>
+            <div style="display:flex; align-items:center; gap:10px;">
+              <input type="number" id="labelCopies" class="sap-input" value="1" min="1" max="50" style="width:80px;">
+              <span id="labelCopiesDisplay" style="font-size:0.85rem; color:var(--text-secondary);">1 cópia</span>
+            </div>
+          </div>
+
+          <!-- Campos a Exibir -->
+          <div class="label-config-group">
+            <label class="input-label" style="margin-bottom:10px;">Campos na Etiqueta</label>
+            <div class="label-toggle-list">
+              <label class="label-toggle-item">
+                <input type="checkbox" id="labelShowDesc" checked>
+                <span>Descrição do Material</span>
+              </label>
+              <label class="label-toggle-item">
+                <input type="checkbox" id="labelShowLote" checked>
+                <span>Lote</span>
+              </label>
+              <label class="label-toggle-item">
+                <input type="checkbox" id="labelShowQtd" checked>
+                <span>Quantidade em Estoque</span>
+              </label>
+              <label class="label-toggle-item">
+                <input type="checkbox" id="labelShowCentro" checked>
+                <span>Centro Logístico</span>
+              </label>
+              <label class="label-toggle-item">
+                <input type="checkbox" id="labelShowDeposito" checked>
+                <span>Depósito</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Info de impressão -->
+          <div class="label-print-info-box">
+            <div style="font-size:0.78rem; color:var(--text-secondary); font-weight:600;">💡 Dica de Impressão</div>
+            <p style="font-size:0.72rem; color:var(--text-muted); margin-top:4px; line-height:1.4;">
+              Compatível com impressoras térmicas Zebra (ZPL) e impressoras laser comuns. Tamanho padrão: <strong>90×55mm</strong>.
+              Para etiquetas de prateleira, use papel A4 e corte.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Rodapé do Modal -->
+      <div class="label-dialog-footer">
+        <button type="button" id="btnCancelLabel" class="btn-secondary">Cancelar</button>
+        <button type="button" id="btnPrintLabel" class="btn-print-label">
+          <span>🖨️</span> Imprimir Etiqueta(s)
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Leitor de Câmera / Barcode Scanner -->
+  <div id="cameraScannerModal" class="scanner-modal" style="display: none;">
+    <div class="scanner-dialog">
+      <div class="scanner-dialog-header">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span class="scanner-live-badge"><span class="pulse-dot"></span> AO VIVO</span>
+          <h3 style="margin:0; font-size:1.1rem; color:#fff; font-weight:700;">Leitor de Código de Barras</h3>
+        </div>
+        <button id="btnCloseScannerModal" style="background:none; border:none; color:var(--text-secondary); font-size:1.6rem; cursor:pointer; line-height:1;">&times;</button>
+      </div>
+
+      <!-- Viewfinder com mira laser animada -->
+      <div class="scanner-viewfinder">
+        <video id="scannerVideo" autoplay playsinline muted></video>
+        <canvas id="scannerCanvas" style="display: none;"></canvas>
+        <div class="laser-scanner-line"></div>
+        <div class="scanner-target-corners"></div>
+        <div id="scannerStatusBadge" class="scanner-status-text">Iniciando câmera...</div>
+      </div>
+
+      <!-- Bipagem Rápida Alternativa no próprio modal -->
+      <div class="scanner-samples-quick">
+        <span style="font-size:0.75rem; color:var(--text-secondary); display:block; margin-bottom:8px; font-weight:600;">
+          💡 Ou selecione uma etiqueta de teste para simular a leitura do código:
+        </span>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <button type="button" class="btn-quick-sample" data-code="MAT-1001" data-lote="LOTE-A1">🏷️ MAT-1001 (Parafuso)</button>
+          <button type="button" class="btn-quick-sample" data-code="MAT-2002" data-lote="LOTE-B2">🏷️ MAT-2002 (Motor)</button>
+          <button type="button" class="btn-quick-sample" data-code="MAT-3003" data-lote="LOTE-C3">🏷️ MAT-3003 (Inox)</button>
+          <button type="button" class="btn-quick-sample" data-code="MAT-4004" data-lote="LOTE-D4">🏷️ MAT-4004 (Rolamento)</button>
+          <button type="button" class="btn-quick-sample" data-code="(01)07891234567890(10)LOTE-A1(30)150" style="background:rgba(0,112,242,0.25); border-color:#0070f2; color:#38bdf8;">📦 GS1: Parafuso (Lote+150UN)</button>
+          <button type="button" class="btn-quick-sample" data-code="MAT:MAT-4004|LOTE:LOTE-D4|QTD:40|DEP:1020" style="background:rgba(16,185,129,0.25); border-color:#10b981; color:#34d399;">🔲 DataMatrix (Rolamento+40UN)</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Configuração de Conexão BTP -->
+  <div id="btpConfigModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75); backdrop-filter: blur(8px); z-index: 2000; align-items: center; justify-content: center;">
+    <div class="glass-card" style="width: 100%; max-width: 520px; background: #111827; border: 1px solid rgba(0,112,242,0.4);">
+      <div class="card-header-clean">
+        <h3 class="card-title">⚙️ Integração SAP BTP OData V4</h3>
+        <button id="btnCloseModal" style="background:none; border:none; color:var(--text-secondary); font-size:1.4rem; cursor:pointer;">&times;</button>
+      </div>
+
+      <form id="formBtpConfig">
+        <div style="margin-bottom: 16px;">
+          <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+            <input type="checkbox" id="toggleBtpMode" style="width: 18px; height: 18px; accent-color: #0070f2;">
+            <span style="font-weight: 700; font-size: 0.95rem;">Habilitar Conexão Direta ao SAP BTP</span>
+          </label>
+          <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;">
+            Desmarcado: Funciona em modo simulação autônomo com persistência local.
+          </p>
+        </div>
+
+        <div style="margin-bottom: 14px;">
+          <label class="input-label" for="inputBtpUrl">Endpoint URL do Service Binding (OData V4)</label>
+          <input type="text" id="inputBtpUrl" class="sap-input" value="/sap/opu/odata4/sap/zui_estoque_rf_o4/srvd/sap/zui_estoque_rf_o4/0001" placeholder="/sap/opu/odata4/sap/zui_estoque_rf_o4/srvd/sap/zui_estoque_rf_o4/0001">
+          <p style="font-size: 0.72rem; color: #38bdf8; margin-top: 4px;">
+            💡 O Proxy Local está ativo! Basta usar o caminho relativo <code>/sap/...</code> para evitar problemas de CORS.
+          </p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px;">
+          <div>
+            <label class="input-label" for="inputBtpUser">Usuário BTP</label>
+            <input type="text" id="inputBtpUser" class="sap-input" placeholder="ex: seu-email ou CB9980000000">
+          </div>
+          <div>
+            <label class="input-label" for="inputBtpPass">Senha / Token</label>
+            <input type="password" id="inputBtpPass" class="sap-input" placeholder="••••••••">
+          </div>
+        </div>
+
+        <!-- Feedback de Teste de Conexão -->
+        <div id="btpTestFeedback" style="display: none; padding: 10px 14px; border-radius: 8px; margin-bottom: 16px; font-size: 0.85rem;"></div>
+
+        <div style="display: flex; gap: 10px; justify-content: space-between; align-items: center;">
+          <button type="button" id="btnTestBtpConn" class="btn-secondary" style="padding: 10px 16px; font-size: 0.88rem;">
+            🔌 Testar Conexão
+          </button>
+          <button type="submit" class="btn-primary-large" style="padding: 10px 20px; font-size: 0.9rem;">
+            Salvar e Ativar BTP
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal de Fila Offline (Chão de Fábrica Resiliente) -->
+  <div id="offlineQueueModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75); backdrop-filter: blur(8px); z-index: 2100; align-items: center; justify-content: center; padding: 16px;">
+    <div class="glass-card" style="width: 100%; max-width: 680px; background: #111827; border: 1px solid rgba(245,158,11,0.45); max-height: 85vh; display: flex; flex-direction: column;">
+      <div class="card-header-clean" style="border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 12px;">
+        <div>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="font-size:1.3rem;">📦</span>
+            <h3 class="card-title" style="color: #fbbf24; margin:0;">Fila de Apontamentos Offline</h3>
+          </div>
+          <p style="font-size: 0.76rem; color: var(--text-secondary); margin-top: 4px;">
+            Apontamentos salvos em memória local durante queda de sinal. Serão gravados no SAP BTP assim que a conexão restabelecer.
+          </p>
+        </div>
+        <button id="btnCloseQueueModal" style="background:none; border:none; color:var(--text-secondary); font-size:1.6rem; cursor:pointer; line-height:1;">&times;</button>
+      </div>
+
+      <div id="queueListContainer" style="flex: 1; overflow-y: auto; padding: 16px 0; min-height: 180px;">
+        <!-- Preenchido via JS -->
+      </div>
+
+      <div style="display: flex; gap: 10px; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 14px;">
+        <button type="button" id="btnClearQueue" class="btn-secondary" style="color: #f87171; border-color: rgba(239,68,68,0.35); font-size: 0.85rem;">
+          🗑️ Descartar Fila
+        </button>
+        <div style="display: flex; gap: 10px;">
+          <button type="button" id="btnCloseQueueModalBottom" class="btn-secondary" style="font-size: 0.85rem;">
+            Fechar
+          </button>
+          <button type="button" id="btnSyncQueueNow" class="btn-primary-large" style="padding: 9px 18px; font-size: 0.88rem; background: linear-gradient(135deg, #f59e0b, #d97706); border:none;">
+            🔄 Sincronizar Agora com SAP BTP
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Container de Toasts -->
+  <div id="toastContainer" class="toast-container"></div>
+
+  <!-- Scripts -->
+  <script src="js/audio.js"></script>
+  <script src="js/scanner.js"></script>
+  <script src="js/offline-queue.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/gs1-parser.js"></script>
+  <script src="js/label-printer.js"></script>
+  <script src="js/cockpit-analytics.js"></script>
+  <script src="js/pwa.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

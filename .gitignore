@@ -1,0 +1,28 @@
+# Node.js
+node_modules/
+npm-debug.log*
+.npm
+
+# Ambiente / Credenciais — NÃO subir ao GitHub!
+.env
+.env.local
+*.env
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Build
+dist/
+build/
+
+# Logs
+*.log
+logs/
