@@ -17,31 +17,47 @@ Operadores realizam apontamentos via tablet, coletor de dados RF ou smartphone, 
 
 ## Screenshots do Sistema
 
-### Coletor RF — Apontamento de Movimentação
-![Coletor RF](web/docs/screenshots/coletor-rf.png)
+### Coletor RF — Operação de Movimentação e Apontamento
+![Coletor RF](web/docs/screenshots/coletor-rf-operacao.png)
 
-> Interface de chão de fábrica desenvolvida para operadores com coletores e leitores de código de barras Zebra e Honeywell. Tipos de movimento 101 / 261 / 311, bip sonoro industrial via Web Audio, feedback visual e háptico a cada leitura. Painel auxiliar com amostras de GS1-128 e DataMatrix multi-dados.
-
----
-
-### Cockpit & ROI — Métricas, KPIs e Alertas de Estoque Crítico
-![Cockpit ROI](web/docs/screenshots/cockpit-roi.png)
-
-> Business Case com calculadora de viabilidade e redução de TCO em licenças SAP. Métricas dinâmicas de materiais, volume total e histórico de movimentações. Monitoramento em tempo real com alertas automáticos de estoque crítico.
+> Terminal de chão de fábrica com seleção de movimentação (101 Entrada, 261 Baixa de Produção, 311 Transferência), leitor de código de barras USB/Bluetooth, validação em tempo real e painel auxiliar com suporte aos padrões GS1-128 e DataMatrix.
 
 ---
 
-### SAP Fiori Elements — Preview da CDS View no SAP BTP
-![Fiori Preview](web/docs/screenshots/fiori-preview.png)
+### Versão Mobile em Smartphone / Coletor RF Portátil
+<div align="center">
+  <img src="web/docs/screenshots/app-mobile-view.png" alt="Aplicativo no Celular" width="380">
+</div>
 
-> Visualização dos saldos via SAP Fiori Elements gerado a partir do Service Binding OData V4 no SAP BTP ABAP Environment. Dados persistidos na tabela `ZTAB_SALDO_RF` no SAP HANA.
+> Interface responsiva operando diretamente no celular ou coletor portátil (PWA instalável). Layout otimizado para operação com uma mão, teclas ampliadas e feedback tátil por vibração a cada bipagem.
 
 ---
 
-### Impressão de Etiquetas Industriais
-![Etiqueta Industrial](web/docs/screenshots/etiqueta.png)
+### Cockpit & ROI — Calculadora de Economia de Licenças e KPIs
+![Cockpit ROI](web/docs/screenshots/cockpit-roi-kpis.png)
 
-> Modal de impressão com pré-visualização ao vivo no padrão Code128. Configuração de parâmetros, número de cópias e dados complementares. Compatível com impressoras térmicas Zebra e impressoras padrão.
+> Painel analítico executivo demonstrando o Business Case de redução de custos com licenças SAP ERP (US$ 82.200/ano de economia para 50 operadores), indicadores em tempo real e monitoramento automatizado de estoque crítico.
+
+---
+
+### Gráficos Analíticos e Histórico de Movimentações
+![Graficos Analiticos](web/docs/screenshots/graficos-analytics.png)
+
+> Visualização analítica desenvolvida com Chart.js: saldo por material vs. ponto de reposição, distribuição percentual por depósito e curva horária de movimentações registradas nas últimas 24 horas.
+
+---
+
+### Posição de Estoque em Tempo Real e Auditoria
+![Tabelas e Auditoria](web/docs/screenshots/tabelas-auditoria-saldos.png)
+
+> Visão granular dos saldos persistidos na tabela `ZTAB_SALDO_RF` (SAP HANA) com emissão de etiquetas e trilha completa de auditoria de movimentações na `ZTAB_ESTOQUE_RF` com número de documento, tipo, lote e operador.
+
+---
+
+### Leitor de Código de Barras via Câmera Integrada
+![Leitor de Camera](web/docs/screenshots/scanner-camera-modal.png)
+
+> Módulo de leitura óptica por câmera com linha guia de mira e decodificação contínua para coletores sem scanner laser embutido e smartphones convencionais.
 
 ---
 
