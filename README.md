@@ -33,6 +33,13 @@ Operadores realizam apontamentos via tablet, coletor de dados RF ou smartphone, 
 
 ---
 
+### Desenvolvimento no VS Code — ABAP Cloud (CDS/DDIC) & JavaScript
+![VS Code Full-Stack](web/docs/screenshots/vscode-abap-javascript.png)
+
+> Ambiente de desenvolvimento integrado no VS Code. Na coluna esquerda, definição da tabela `ZTAB_ESTOQUE_RF` em Core Data Services (CDS DDLS) com tipagens e anotações para o SAP HANA. Na coluna direita, decodificador GS1-128/DataMatrix com mapeamento de identificadores de aplicação. Na barra lateral, organização modular dos artefatos ABAP e Web.
+
+---
+
 ### Cockpit & ROI — Calculadora de Economia de Licenças e KPIs
 ![Cockpit ROI](web/docs/screenshots/cockpit-roi-kpis.png)
 
@@ -51,6 +58,20 @@ Operadores realizam apontamentos via tablet, coletor de dados RF ou smartphone, 
 ![Tabelas e Auditoria](web/docs/screenshots/tabelas-auditoria-saldos.png)
 
 > Visão granular dos saldos persistidos na tabela `ZTAB_SALDO_RF` (SAP HANA) com emissão de etiquetas e trilha completa de auditoria de movimentações na `ZTAB_ESTOQUE_RF` com número de documento, tipo, lote e operador.
+
+---
+
+### SAP Fiori Elements — Preview da Aplicação no SAP BTP
+![Fiori Elements](web/docs/screenshots/fiori-elements-preview.png)
+
+> Aplicação SAP Fiori Elements gerada diretamente no SAP BTP ABAP Environment a partir do Service Binding OData V4, validando os dados persistidos na tabela `ZTAB_SALDO_RF` no SAP HANA.
+
+---
+
+### Impressão de Etiquetas Industriais (Code128)
+![Impressao de Etiqueta](web/docs/screenshots/impressao-etiqueta-modal.png)
+
+> Modal de configuração e pré-visualização de etiqueta industrial com renderização vetorial SVG de código de barras Code128, personalização de campos, número de cópias e compatibilidade com impressoras térmicas Zebra ZPL.
 
 ---
 
