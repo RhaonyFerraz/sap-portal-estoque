@@ -7,9 +7,12 @@
 ![PWA](https://img.shields.io/badge/PWA-Instalável-10B981?style=for-the-badge&logo=googlechrome&logoColor=white)
 ![RAP](https://img.shields.io/badge/RAP-Restful%20ABAP-1A3C5E?style=for-the-badge)
 ![Offline](https://img.shields.io/badge/Offline-Resiliente-F59E0B?style=for-the-badge)
+[![Demo Online](https://img.shields.io/badge/Demonstração_Online-Acessar_Portal-0070F2?style=for-the-badge&logo=googlechrome&logoColor=white)](https://rhaonyferraz.github.io/sap-portal-estoque/)
 
 **Solução de chão de fábrica que otimiza custos de licenças de usuário SAP.**  
 Operadores realizam apontamentos via tablet, coletor de dados RF ou smartphone, integrados ao SAP BTP ABAP Cloud via OData V4 em tempo real.
+
+**Acesse a demonstração interativa:** [https://rhaonyferraz.github.io/sap-portal-estoque/](https://rhaonyferraz.github.io/sap-portal-estoque/)
 
 </div>
 
