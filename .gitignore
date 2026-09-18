@@ -3,6 +3,11 @@ node_modules/
 npm-debug.log*
 .npm
 
+# Código proprietário — NÃO publicar no GitHub público
+src/abap/
+docs/
+scripts/
+
 # Ambiente / Credenciais — NÃO subir ao GitHub!
 .env
 .env.local

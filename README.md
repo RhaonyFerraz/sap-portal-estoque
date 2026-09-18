@@ -9,10 +9,14 @@
 ![Offline](https://img.shields.io/badge/Offline-Resiliente-F59E0B?style=for-the-badge)
 [![Demo Online](https://img.shields.io/badge/Demonstração_Online-Acessar_Portal-0070F2?style=for-the-badge&logo=googlechrome&logoColor=white)](https://rhaonyferraz.github.io/sap-portal-estoque/)
 
-**Solução de chão de fábrica que otimiza custos de licenças de usuário SAP.**  
-Operadores realizam apontamentos via tablet, coletor de dados RF ou smartphone, integrados ao SAP BTP ABAP Cloud via OData V4 em tempo real.
+**Solução proprietária de chão de fábrica que elimina o custo de licenças individuais SAP para operadores.**  
+Apontamentos via tablet, coletor de dados RF ou smartphone — integrados ao SAP BTP ABAP Cloud via OData V4 em tempo real.
 
-**Acesse a demonstração interativa:** [https://rhaonyferraz.github.io/sap-portal-estoque/](https://rhaonyferraz.github.io/sap-portal-estoque/)
+> ⚠️ **Este repositório contém apenas a demonstração interativa.**  
+> O código-fonte completo (ABAP Cloud, RAP, CDS View Entities, OData V4) é proprietário  
+> e disponibilizado exclusivamente mediante contato para implantação.
+
+**Demonstração interativa:** [https://rhaonyferraz.github.io/sap-portal-estoque/](https://rhaonyferraz.github.io/sap-portal-estoque/)
 
 </div>
 
@@ -260,18 +264,20 @@ Consulte o guia completo em [`docs/sap_adt_activation_guide.md`](docs/sap_adt_ac
 
 ---
 
-## Autor
+## Consultor & Desenvolvedor
 
 **Rhaony Ferraz**  
-Desenvolvedor SAP BTP & ABAP Cloud
+Especialista SAP BTP · ABAP Cloud · Clean Core · OData V4 · SAP HANA
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Rhaony%20Ferraz-0077B5?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/rhaony-ferraz-5a181377/)
-[![GitHub](https://img.shields.io/badge/GitHub-RhaonyFerraz-181717?style=for-the-badge&logo=github)](https://github.com/RhaonyFerraz)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Entre%20em%20Contato-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/rhaony-ferraz-5a181377/)
 
-> Projeto desenvolvido para demonstrar integração entre **SAP BTP ABAP Cloud** e aplicações web modernas de chão de fábrica, com foco em **redução de TCO de licenças SAP**.
+> Interessado em reduzir custos de licenciamento SAP na sua empresa?  
+> Entre em contato para uma apresentação técnica e proposta de implantação.
 
 ---
 
-## Licença
+## Aviso Legal
 
-MIT License — Livre para uso e adaptação em projetos comerciais e educacionais.
+**Solução proprietária.** O código-fonte ABAP Cloud, RAP, CDS e OData V4 desta solução  
+não é distribuído publicamente. Todos os direitos reservados a Rhaony Ferraz.  
+Uso da demonstração interativa permitido apenas para fins de avaliação da solução.

@@ -1,7 +1,0 @@
-@EndUserText.label: 'Service Definition - Portal de Logística & Estoque OData V4'
-define service ZUI_ESTOQUE_RF_O4 {
-  expose ZC_ESTOQUE_RF as Movimentacoes;
-  expose ZC_SALDO_RF   as Saldos;
-  expose ZR_ESTOQUE_RF as MovimentacoesBase;
-  expose ZR_SALDO_RF   as SaldosBase;
-}
