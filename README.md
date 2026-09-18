@@ -71,6 +71,13 @@ Operadores realizam apontamentos via tablet, coletor de dados RF ou smartphone, 
 
 ---
 
+### SAP BTP Cockpit — Instância do ABAP Environment Ativa
+![SAP BTP Cockpit](web/docs/screenshots/sap-btp-cockpit-instances.png)
+
+> Painel de controle do SAP BTP Cockpit comprovando a infraestrutura de nuvem com a instância `meu-abap-trial` do serviço ABAP Environment em Cloud Foundry, status Utilizável e credenciais ativas para comunicação via OData V4.
+
+---
+
 ### Impressão de Etiquetas Industriais (Code128)
 ![Impressao de Etiqueta](web/docs/screenshots/impressao-etiqueta-modal.png)
 
