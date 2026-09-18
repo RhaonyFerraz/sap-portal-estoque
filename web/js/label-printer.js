@@ -293,7 +293,7 @@ class LabelPrinterService {
           </div>
           ${barcodeSVG ? `<div class="lp-barcode">${barcodeSVG}</div>` : ''}
           <div class="lp-footer">
-            <span>🏭 Portal de Apontamento RF</span>
+            <span>Portal de Apontamento RF</span>
             <span>${dataStr}</span>
           </div>
         </div>

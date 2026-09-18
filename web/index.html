@@ -50,10 +50,10 @@
       <!-- Navegação por Abas -->
       <nav class="nav-tabs">
         <button id="tabCollector" class="tab-btn active">
-          📦 Coletor RF
+          Coletor RF
         </button>
         <button id="tabCockpit" class="tab-btn">
-          📊 Cockpit & ROI
+          Cockpit & ROI
         </button>
       </nav>
 
@@ -65,12 +65,12 @@
 
       <!-- Botão de Instalação PWA (Dispositivos Móveis / Celular / Coletor) -->
       <button id="btnInstallPwa" class="btn-install-pwa" style="display: none;" title="Instalar aplicativo no dispositivo móvel ou coletor">
-        <span>📲</span> Instalar App
+        Instalar App
       </button>
 
       <!-- Botão de Configuração de Integração BTP -->
       <button id="btnBtpConfig" class="btn-secondary" style="padding: 8px 14px; font-size: 0.85rem;" title="Configurações de Conexão SAP BTP">
-        ⚙️ Conectar BTP
+        Conectar BTP
       </button>
     </div>
   </header>
@@ -88,20 +88,20 @@
         <div class="glass-card">
           <div class="card-header-clean">
             <h2 class="card-title">
-              <span>🎯</span> Operação de Movimentação
+              Operação de Movimentação
             </h2>
             <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
               <!-- Botão Toggle de Som Industrial -->
               <button type="button" id="btnToggleSound" class="feedback-pill-btn active" title="Alternar Bip Sonoro Industrial (Zebra/Honeywell)">
-                <span id="soundIcon">🔊</span> Bip
+                <span id="soundIcon"></span> Bip
               </button>
               <!-- Botão Toggle de Vibração Háptica -->
               <button type="button" id="btnToggleHaptic" class="feedback-pill-btn active" title="Alternar Vibração Háptica no Celular/Coletor">
-                <span id="hapticIcon">📳</span> Vibração
+                <span id="hapticIcon"></span> Vibração
               </button>
               <!-- Botão Testar Feedback -->
               <button type="button" id="btnTestFeedback" class="feedback-pill-btn test-btn" title="Testar Bip e Vibração">
-                ▶️ Testar
+                Testar
               </button>
             </div>
           </div>
@@ -133,15 +133,15 @@
               <div class="form-group-full">
                 <label class="input-label" for="inputMaterial">
                   <span>Código do Material (Bipar ou Digitar)</span>
-                  <span style="color: var(--sap-accent); font-size: 0.75rem;">★ Campo Chave</span>
+                  <span style="color: var(--sap-accent); font-size: 0.75rem;">Campo Chave</span>
                 </label>
                 <div class="input-container">
                   <input type="text" id="inputMaterial" class="sap-input" placeholder="Ex: MAT-1001" required autocomplete="off">
                   <button type="button" class="input-action-btn" onclick="window.barcodeScanner.triggerScan('MAT-1001')">
-                    ⚡ Bipar
+                    Bipar
                   </button>
                   <button type="button" id="btnOpenScanner" class="input-action-btn btn-scanner-camera" title="Abrir Leitor de Câmera">
-                    📷 Câmera
+                    Camera
                   </button>
                 </div>
               </div>
@@ -206,7 +206,7 @@
             <!-- Ações -->
             <div class="action-footer">
               <button type="submit" class="btn-primary-large" id="btnConfirmar">
-                <span>📡</span> Confirmar & Postar no SAP
+                Confirmar & Postar no SAP
               </button>
               <button type="button" class="btn-secondary" id="btnResetForm">
                 Limpar
@@ -219,7 +219,7 @@
         <div class="glass-card">
           <div class="card-header-clean">
             <h3 class="card-title" style="font-size: 1.1rem;">
-              <span>📶</span> Bipagem Rápida
+              Bipagem Rápida
             </h3>
           </div>
           <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 16px;">
@@ -232,7 +232,6 @@
                 <div class="sample-code">MAT-1001</div>
                 <div class="sample-name">Parafuso M8x40 Aço Carbono</div>
               </div>
-              <span style="font-size: 1.2rem;">🏷️</span>
             </div>
 
             <div class="sample-chip" data-code="MAT-2002">
@@ -240,7 +239,6 @@
                 <div class="sample-code">MAT-2002</div>
                 <div class="sample-name">Motor Elétrico Trifásico 2CV</div>
               </div>
-              <span style="font-size: 1.2rem;">🏷️</span>
             </div>
 
             <div class="sample-chip" data-code="MAT-3003">
@@ -248,7 +246,6 @@
                 <div class="sample-code">MAT-3003</div>
                 <div class="sample-name">Chapa Inox 304 2mm</div>
               </div>
-              <span style="font-size: 1.2rem;">🏷️</span>
             </div>
 
             <div class="sample-chip" data-code="MAT-4004">
@@ -256,7 +253,6 @@
                 <div class="sample-code">MAT-4004</div>
                 <div class="sample-name">Rolamento Blindado 6204</div>
               </div>
-              <span style="font-size: 1.2rem;">🏷️</span>
             </div>
 
             <div class="sample-chip" data-code="MAT-5005">
@@ -264,13 +260,12 @@
                 <div class="sample-code">MAT-5005</div>
                 <div class="sample-name">Graxa Lubrificante Sintética</div>
               </div>
-              <span style="font-size: 1.2rem;">🏷️</span>
             </div>
 
             <!-- Amostras de Código GS1-128 / DataMatrix Multi-Dados -->
             <div style="margin-top: 14px; padding-top: 12px; border-top: 1px dashed rgba(255,255,255,0.1);">
               <span class="input-label" style="display:flex; align-items:center; gap:6px; color:#38bdf8; margin-bottom: 6px;">
-                <span>🌐</span> Padrão GS1-128 / DataMatrix (Multi-Dados)
+                Padrão GS1-128 / DataMatrix (Multi-Dados)
               </span>
               <p style="font-size: 0.72rem; color: var(--text-muted); margin-bottom: 8px;">
                 Decodifica Material, Lote e Quantidade em 1 único bip:
@@ -281,7 +276,6 @@
                   <div class="sample-code" style="color:#38bdf8;">GS1: Parafuso M8 (150 UN)</div>
                   <div class="sample-name">(01)MAT-1001 + (10)LOTE-A1 + (30)150</div>
                 </div>
-                <span style="font-size: 1.2rem;">📦</span>
               </div>
 
               <div class="sample-chip" data-code="(01)07891234567891(10)LOTE-B2(30)25(90)OP100984" style="border-color: rgba(56,189,248,0.35);">
@@ -289,7 +283,6 @@
                   <div class="sample-code" style="color:#38bdf8;">GS1: Motor 2CV + Ordem OP</div>
                   <div class="sample-name">(01)MAT-2002 + LOTE-B2 + 25 UN + OP</div>
                 </div>
-                <span style="font-size: 1.2rem;">⚡</span>
               </div>
 
               <div class="sample-chip" data-code="MAT:MAT-4004|LOTE:LOTE-D4|QTD:40|DEP:1020" style="border-color: rgba(52,211,153,0.35);">
@@ -297,14 +290,13 @@
                   <div class="sample-code" style="color:#34d399;">DataMatrix 2D: Rolamento</div>
                   <div class="sample-name">MAT-4004 | LOTE-D4 | 40 UN | Dep. 1020</div>
                 </div>
-                <span style="font-size: 1.2rem;">🔲</span>
               </div>
             </div>
           </div>
 
           <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--border-subtle);">
             <div style="font-size: 0.8rem; font-weight: 700; color: var(--text-secondary); margin-bottom: 8px;">
-              💡 DICA DE TESTE DE VALIDAÇÃO:
+              DICA DE TESTE DE VALIDAÇÃO:
             </div>
             <p style="font-size: 0.78rem; color: var(--text-muted); line-height: 1.4;">
               Selecione o movimento <strong>261 (Baixa)</strong> no material <code>MAT-2002</code> (que tem 48 UN) e tente baixar <strong>100 UN</strong>. Observe a rejeição da regra de negócio e o alerta sonoro grave do coletor!
@@ -366,7 +358,7 @@
           <div class="kpi-subtext">Histórico completo</div>
         </div>
         <div class="kpi-card">
-          <div class="kpi-title">Estoque Crítico 🚨</div>
+          <div class="kpi-title">Estoque Crítico</div>
           <div id="kpiCriticos" class="kpi-number" style="color:#f87171;">0</div>
           <div class="kpi-subtext" style="color:#f87171;">Abaixo do ponto mín.</div>
         </div>
@@ -378,7 +370,6 @@
       <div id="alertPanel" class="alert-panel" style="display:none; margin-bottom:24px;">
         <div class="alert-panel-header">
           <div style="display:flex; align-items:center; gap:10px;">
-            <span class="alert-pulse-icon">🚨</span>
             <div>
               <div class="alert-panel-title">Alertas de Estoque Crítico</div>
               <div class="alert-panel-sub">Materiais abaixo do ponto mínimo de reposição</div>
@@ -399,7 +390,7 @@
         <!-- Gráfico 1: Saldo Atual por Material (Barras) -->
         <div class="glass-card chart-card">
           <div class="card-header-clean">
-            <h3 class="card-title"><span>📊</span> Saldo por Material</h3>
+            <h3 class="card-title">Saldo por Material</h3>
             <span class="chart-badge">Tempo Real</span>
           </div>
           <div class="chart-wrapper">
@@ -410,7 +401,7 @@
         <!-- Gráfico 2: Distribuição por Depósito (Donut) -->
         <div class="glass-card chart-card">
           <div class="card-header-clean">
-            <h3 class="card-title"><span>🍩</span> Distribuição por Depósito</h3>
+            <h3 class="card-title">Distribuição por Depósito</h3>
             <span class="chart-badge">Por Localização</span>
           </div>
           <div class="chart-wrapper chart-wrapper-donut">
@@ -423,7 +414,7 @@
       <!-- Gráfico 3: Histórico de Movimentações (Linha) -->
       <div class="glass-card" style="margin-bottom:24px;">
         <div class="card-header-clean">
-          <h3 class="card-title"><span>📈</span> Histórico de Movimentações (Últimas 24h)</h3>
+          <h3 class="card-title">Histórico de Movimentações (Últimas 24h)</h3>
           <div style="display:flex; gap:12px; align-items:center;">
             <span class="chart-legend-dot" style="background:#10b981;"></span><span style="font-size:0.75rem; color:var(--text-secondary);">Entrada 101</span>
             <span class="chart-legend-dot" style="background:#f87171;"></span><span style="font-size:0.75rem; color:var(--text-secondary);">Saída 261</span>
@@ -439,7 +430,7 @@
       <div class="glass-card" style="margin-bottom: 24px;">
         <div class="card-header-clean">
           <h3 class="card-title">
-            <span>📊</span> Posição de Estoque em Tempo Real (ZTAB_SALDO_RF)
+            Posição de Estoque em Tempo Real (ZTAB_SALDO_RF)
           </h3>
         </div>
         <div class="table-responsive">
@@ -467,7 +458,7 @@
       <div class="glass-card">
         <div class="card-header-clean">
           <h3 class="card-title">
-            <span>📋</span> Auditoria de Movimentações Recentes (ZTAB_ESTOQUE_RF)
+            Auditoria de Movimentações Recentes (ZTAB_ESTOQUE_RF)
           </h3>
         </div>
         <div class="table-responsive">
@@ -503,7 +494,6 @@
       <!-- Header do Modal -->
       <div class="label-dialog-header">
         <div style="display:flex; align-items:center; gap:10px;">
-          <span style="font-size:1.5rem;">🏷️</span>
           <div>
             <h3 style="margin:0; font-size:1.05rem; color:#fff; font-weight:700;">Impressão de Etiqueta Industrial</h3>
             <p style="margin:0; font-size:0.75rem; color:var(--text-secondary);">Preview e configuração antes de imprimir</p>
@@ -515,7 +505,7 @@
       <div class="label-dialog-body">
         <!-- Coluna Esquerda: Preview da Etiqueta -->
         <div class="label-preview-col">
-          <div style="font-size:0.75rem; font-weight:700; color:var(--text-secondary); margin-bottom:10px; text-transform:uppercase; letter-spacing:0.05em;">📄 Preview da Etiqueta</div>
+          <div style="font-size:0.75rem; font-weight:700; color:var(--text-secondary); margin-bottom:10px; text-transform:uppercase; letter-spacing:0.05em;">Preview da Etiqueta</div>
 
           <!-- Etiqueta Preview (cartão branco simulando papel) -->
           <div id="labelPreviewCard" class="label-preview-card">
@@ -560,7 +550,7 @@
 
             <!-- Rodapé da etiqueta -->
             <div class="lp-footer">
-              <span>🏭 Portal de Apontamento RF</span>
+              <span>Portal de Apontamento RF</span>
               <span id="lblDataImpressao">--/--/---- --:--</span>
             </div>
           </div>
@@ -568,7 +558,7 @@
 
         <!-- Coluna Direita: Configurações de Impressão -->
         <div class="label-config-col">
-          <div style="font-size:0.75rem; font-weight:700; color:var(--text-secondary); margin-bottom:12px; text-transform:uppercase; letter-spacing:0.05em;">⚙️ Configurações</div>
+          <div style="font-size:0.75rem; font-weight:700; color:var(--text-secondary); margin-bottom:12px; text-transform:uppercase; letter-spacing:0.05em;">Configurações</div>
 
           <!-- Número de Cópias -->
           <div class="label-config-group">
@@ -608,7 +598,7 @@
 
           <!-- Info de impressão -->
           <div class="label-print-info-box">
-            <div style="font-size:0.78rem; color:var(--text-secondary); font-weight:600;">💡 Dica de Impressão</div>
+            <div style="font-size:0.78rem; color:var(--text-secondary); font-weight:600;">Dica de Impressão</div>
             <p style="font-size:0.72rem; color:var(--text-muted); margin-top:4px; line-height:1.4;">
               Compatível com impressoras térmicas Zebra (ZPL) e impressoras laser comuns. Tamanho padrão: <strong>90×55mm</strong>.
               Para etiquetas de prateleira, use papel A4 e corte.
@@ -621,7 +611,7 @@
       <div class="label-dialog-footer">
         <button type="button" id="btnCancelLabel" class="btn-secondary">Cancelar</button>
         <button type="button" id="btnPrintLabel" class="btn-print-label">
-          <span>🖨️</span> Imprimir Etiqueta(s)
+          Imprimir Etiqueta(s)
         </button>
       </div>
     </div>
@@ -650,15 +640,15 @@
       <!-- Bipagem Rápida Alternativa no próprio modal -->
       <div class="scanner-samples-quick">
         <span style="font-size:0.75rem; color:var(--text-secondary); display:block; margin-bottom:8px; font-weight:600;">
-          💡 Ou selecione uma etiqueta de teste para simular a leitura do código:
+          Selecione uma etiqueta de teste para simular a leitura do código:
         </span>
         <div style="display:flex; gap:8px; flex-wrap:wrap;">
-          <button type="button" class="btn-quick-sample" data-code="MAT-1001" data-lote="LOTE-A1">🏷️ MAT-1001 (Parafuso)</button>
-          <button type="button" class="btn-quick-sample" data-code="MAT-2002" data-lote="LOTE-B2">🏷️ MAT-2002 (Motor)</button>
-          <button type="button" class="btn-quick-sample" data-code="MAT-3003" data-lote="LOTE-C3">🏷️ MAT-3003 (Inox)</button>
-          <button type="button" class="btn-quick-sample" data-code="MAT-4004" data-lote="LOTE-D4">🏷️ MAT-4004 (Rolamento)</button>
-          <button type="button" class="btn-quick-sample" data-code="(01)07891234567890(10)LOTE-A1(30)150" style="background:rgba(0,112,242,0.25); border-color:#0070f2; color:#38bdf8;">📦 GS1: Parafuso (Lote+150UN)</button>
-          <button type="button" class="btn-quick-sample" data-code="MAT:MAT-4004|LOTE:LOTE-D4|QTD:40|DEP:1020" style="background:rgba(16,185,129,0.25); border-color:#10b981; color:#34d399;">🔲 DataMatrix (Rolamento+40UN)</button>
+          <button type="button" class="btn-quick-sample" data-code="MAT-1001" data-lote="LOTE-A1">MAT-1001 (Parafuso)</button>
+          <button type="button" class="btn-quick-sample" data-code="MAT-2002" data-lote="LOTE-B2">MAT-2002 (Motor)</button>
+          <button type="button" class="btn-quick-sample" data-code="MAT-3003" data-lote="LOTE-C3">MAT-3003 (Inox)</button>
+          <button type="button" class="btn-quick-sample" data-code="MAT-4004" data-lote="LOTE-D4">MAT-4004 (Rolamento)</button>
+          <button type="button" class="btn-quick-sample" data-code="(01)07891234567890(10)LOTE-A1(30)150" style="background:rgba(0,112,242,0.25); border-color:#0070f2; color:#38bdf8;">GS1: Parafuso (Lote+150UN)</button>
+          <button type="button" class="btn-quick-sample" data-code="MAT:MAT-4004|LOTE:LOTE-D4|QTD:40|DEP:1020" style="background:rgba(16,185,129,0.25); border-color:#10b981; color:#34d399;">DataMatrix (Rolamento+40UN)</button>
         </div>
       </div>
     </div>
@@ -668,7 +658,7 @@
   <div id="btpConfigModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75); backdrop-filter: blur(8px); z-index: 2000; align-items: center; justify-content: center;">
     <div class="glass-card" style="width: 100%; max-width: 520px; background: #111827; border: 1px solid rgba(0,112,242,0.4);">
       <div class="card-header-clean">
-        <h3 class="card-title">⚙️ Integração SAP BTP OData V4</h3>
+        <h3 class="card-title">Integração SAP BTP OData V4</h3>
         <button id="btnCloseModal" style="background:none; border:none; color:var(--text-secondary); font-size:1.4rem; cursor:pointer;">&times;</button>
       </div>
 
@@ -687,7 +677,7 @@
           <label class="input-label" for="inputBtpUrl">Endpoint URL do Service Binding (OData V4)</label>
           <input type="text" id="inputBtpUrl" class="sap-input" value="/sap/opu/odata4/sap/zui_estoque_rf_o4/srvd/sap/zui_estoque_rf_o4/0001" placeholder="/sap/opu/odata4/sap/zui_estoque_rf_o4/srvd/sap/zui_estoque_rf_o4/0001">
           <p style="font-size: 0.72rem; color: #38bdf8; margin-top: 4px;">
-            💡 O Proxy Local está ativo! Basta usar o caminho relativo <code>/sap/...</code> para evitar problemas de CORS.
+            O Proxy Local está ativo! Basta usar o caminho relativo <code>/sap/...</code> para evitar problemas de CORS.
           </p>
         </div>
 
@@ -707,7 +697,7 @@
 
         <div style="display: flex; gap: 10px; justify-content: space-between; align-items: center;">
           <button type="button" id="btnTestBtpConn" class="btn-secondary" style="padding: 10px 16px; font-size: 0.88rem;">
-            🔌 Testar Conexão
+            Testar Conexão
           </button>
           <button type="submit" class="btn-primary-large" style="padding: 10px 20px; font-size: 0.9rem;">
             Salvar e Ativar BTP
@@ -723,7 +713,6 @@
       <div class="card-header-clean" style="border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 12px;">
         <div>
           <div style="display:flex; align-items:center; gap:8px;">
-            <span style="font-size:1.3rem;">📦</span>
             <h3 class="card-title" style="color: #fbbf24; margin:0;">Fila de Apontamentos Offline</h3>
           </div>
           <p style="font-size: 0.76rem; color: var(--text-secondary); margin-top: 4px;">
@@ -739,14 +728,14 @@
 
       <div style="display: flex; gap: 10px; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 14px;">
         <button type="button" id="btnClearQueue" class="btn-secondary" style="color: #f87171; border-color: rgba(239,68,68,0.35); font-size: 0.85rem;">
-          🗑️ Descartar Fila
+          Descartar Fila
         </button>
         <div style="display: flex; gap: 10px;">
           <button type="button" id="btnCloseQueueModalBottom" class="btn-secondary" style="font-size: 0.85rem;">
             Fechar
           </button>
           <button type="button" id="btnSyncQueueNow" class="btn-primary-large" style="padding: 9px 18px; font-size: 0.88rem; background: linear-gradient(135deg, #f59e0b, #d97706); border:none;">
-            🔄 Sincronizar Agora com SAP BTP
+            Sincronizar Agora com SAP BTP
           </button>
         </div>
       </div>

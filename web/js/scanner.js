@@ -25,12 +25,12 @@ class BarcodeScannerService {
         this.barcodeDetector = new BarcodeDetector({
           formats: supported.length > 0 ? supported : ['code_128', 'code_39', 'ean_13', 'ean_8', 'qr_code', 'upc_a']
         });
-        console.log('✅ BarcodeDetector nativo suportado com formatos:', supported);
+        console.log('BarcodeDetector nativo suportado com formatos:', supported);
       } catch (err) {
         console.warn('BarcodeDetector não suportado ou erro ao inicializar:', err);
       }
     } else {
-      console.info('ℹ️ BarcodeDetector API não disponível nativamente neste navegador.');
+      console.info('BarcodeDetector API não disponível nativamente neste navegador.');
     }
   }
 

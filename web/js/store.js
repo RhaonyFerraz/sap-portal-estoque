@@ -420,7 +420,7 @@ class SapStockStore {
       Unidade: unidade || 'UN',
       Status: isQueuedOffline ? 'W' : 'S',
       Mensagem: isQueuedOffline 
-        ? '📦 Salvo na Fila Offline (aguardando reconexão SAP BTP)' 
+        ? 'Salvo na Fila Offline (aguardando reconexão SAP BTP)' 
         : `Apontamento ${tipoMovimento} registrado localmente`,
       Operador: operador || 'OPERADOR_RF',
       CreatedAt: now.toISOString()
@@ -433,7 +433,7 @@ class SapStockStore {
       docMaterial: docMaterial,
       anoDoc: `${now.getFullYear()}`,
       mensagem: isQueuedOffline
-        ? `📦 Apontamento salvo na Fila Offline! Sincronizará com o SAP BTP automaticamente.`
+        ? `Apontamento salvo na Fila Offline. Sincronizará com o SAP BTP automaticamente.`
         : `Movimentação ${tipoMovimento} registrada com sucesso!`
     };
   }

@@ -22,10 +22,10 @@ class PwaManager {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('/sw.js')
           .then((registration) => {
-            console.log('✅ [PWA] Service Worker registrado com sucesso. Escopo:', registration.scope);
+            console.log('[PWA] Service Worker registrado com sucesso. Escopo:', registration.scope);
           })
           .catch((error) => {
-            console.warn('⚠️ [PWA] Falha ao registrar Service Worker:', error);
+            console.warn('[PWA] Falha ao registrar Service Worker:', error);
           });
       });
     }
@@ -49,20 +49,20 @@ class PwaManager {
       // Mostra o botão de instalação com animação sutil
       installBtn.style.display = 'inline-flex';
       installBtn.classList.add('pulse-install');
-      console.log('📱 [PWA] Pronto para instalação na tela inicial.');
+      console.log('[PWA] Pronto para instalação na tela inicial.');
     });
 
     installBtn.addEventListener('click', async () => {
       if (!this.deferredPrompt) {
         // Fallback explicativo caso o navegador não suporte o prompt automático
-        alert('Para instalar este portal no seu dispositivo:\n\n1. No Chrome: Clique no menu de 3 pontos (⋮) e selecione "Instalar aplicativo" ou "Adicionar à tela inicial".\n2. No Safari (iOS): Clique no botão Compartilhar (⎋) e escolha "Adicionar à Tela de Início".');
+        alert('Para instalar este portal no seu dispositivo:\n\n1. No Chrome: Abra o menu do navegador e selecione "Instalar aplicativo" ou "Adicionar à tela inicial".\n2. No Safari (iOS): Toque em "Compartilhar" e escolha "Adicionar à Tela de Início".');
         return;
       }
 
       // Dispara o prompt nativo do Android / Chrome / Windows
       this.deferredPrompt.prompt();
       const { outcome } = await this.deferredPrompt.userChoice;
-      console.log(`📱 [PWA] Escolha do operador: ${outcome}`);
+      console.log(`[PWA] Escolha do operador: ${outcome}`);
 
       if (outcome === 'accepted') {
         installBtn.style.display = 'none';
@@ -71,7 +71,7 @@ class PwaManager {
     });
 
     window.addEventListener('appinstalled', () => {
-      console.log('🎉 [PWA] Aplicativo instalado com sucesso no dispositivo!');
+      console.log('[PWA] Aplicativo instalado com sucesso no dispositivo.');
       installBtn.style.display = 'none';
       if (window.showToast) {
         window.showToast('Aplicativo instalado na tela inicial com sucesso!', 'success');
@@ -88,14 +88,14 @@ class PwaManager {
 
       if (!isOnline) {
         if (statusPill) statusPill.className = 'status-pill mode-offline';
-        if (statusText) statusText.textContent = '⚠️ Sem Conexão (Modo Offline)';
+        if (statusText) statusText.textContent = 'Sem Conexão (Modo Offline)';
         if (window.showToast) {
           window.showToast('Sem conexão de rede. Operando em modo offline seguro.', 'warning');
         }
       } else {
         if (window.sapStore && window.sapStore.isBtpConnected) {
           if (statusPill) statusPill.className = 'status-pill mode-btp';
-          if (statusText) statusText.textContent = '🟢 SAP BTP OData V4 Real';
+          if (statusText) statusText.textContent = 'SAP BTP OData V4 Conectado';
         } else {
           if (statusPill) statusPill.className = 'status-pill';
           if (statusText) statusText.textContent = 'Modo Demo / Offline';

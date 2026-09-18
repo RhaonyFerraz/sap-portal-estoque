@@ -15,7 +15,7 @@ class OfflineQueueManager {
   init() {
     // 1. Escuta reconexão de rede (Online) para sincronização automática imediata
     window.addEventListener('online', () => {
-      console.log('🌐 [OfflineQueue] Conexão restabelecida! Iniciando sincronização automática...');
+      console.log('[OfflineQueue] Conexão restabelecida. Iniciando sincronização automática...');
       if (this.getPendingCount() > 0) {
         setTimeout(() => this.syncAll(), 1500);
       }
@@ -64,7 +64,7 @@ class OfflineQueueManager {
 
     queue.push(item);
     this._saveQueue(queue);
-    console.log(`📦 [OfflineQueue] Item adicionado à fila: ${item.id}`, movData);
+    console.log(`[OfflineQueue] Item adicionado à fila: ${item.id}`, movData);
     return item;
   }
 
@@ -96,7 +96,7 @@ class OfflineQueueManager {
     this._notifyListeners();
 
     if (!isSilent && window.showToast) {
-      window.showToast(`🔄 Sincronizando ${pendingItems.length} apontamento(s) com o SAP BTP...`, 'info');
+      window.showToast(`Sincronizando ${pendingItems.length} apontamento(s) com o SAP BTP...`, 'info');
     }
 
     let successCount = 0;
@@ -140,7 +140,7 @@ class OfflineQueueManager {
         window.industrialBeeper.beepPostSuccess();
       }
       if (window.showToast) {
-        window.showToast(`✅ ${successCount} apontamento(s) sincronizado(s) no SAP BTP!`, 'success');
+        window.showToast(`${successCount} apontamento(s) sincronizado(s) no SAP BTP.`, 'success');
       }
       if (window.refreshCockpit) {
         window.refreshCockpit();
@@ -149,7 +149,7 @@ class OfflineQueueManager {
 
     if (failCount > 0 && !isSilent) {
       if (window.showToast) {
-        window.showToast(`⚠️ ${failCount} apontamento(s) não puderam ser sincronizados. Verifique o sinal ou saldo.`, 'warning');
+        window.showToast(`${failCount} apontamento(s) nao puderam ser sincronizados. Verifique o sinal ou saldo.`, 'warning');
       }
     }
   }

@@ -138,7 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
         checkStockPreview();
 
         const fields = decoded.fieldsFound.join(' + ');
-        showToast(`🌐 ${decoded.standard} decodificado! Preenchido: ${fields}`, 'success');
+        showToast(`${decoded.standard} decodificado. Preenchido: ${fields}`, 'success');
         return;
       }
     }
@@ -194,7 +194,7 @@ document.addEventListener('DOMContentLoaded', () => {
       window.industrialBeeper.beepPostSuccess();
       
       if (result.isOfflineQueued) {
-        showToast(`📦 Apontamento salvo na Fila Offline! Sincronizará com o SAP BTP automaticamente.`, 'info');
+        showToast(`Apontamento salvo na Fila Offline. Sincronizara com o SAP BTP automaticamente.`, 'info');
       } else {
         showToast(`Movimento ${currentMovementType} gravado com sucesso! Doc: ${result.docMaterial}`, 'success');
       }
@@ -245,7 +245,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <td><span class="badge-tag mov-${s.UltimoMovimento || '101'}">${s.UltimoMovimento || '101'}</span></td>
           <td>
             <button class="btn-print-row" data-idx="${idx}" title="Imprimir Etiqueta de ${s.Material}">
-              🏷️ Etiqueta
+              Etiqueta
             </button>
           </td>
         </tr>
@@ -282,7 +282,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <td><strong>${m.DocMaterial}</strong></td>
             <td><span class="badge-tag mov-${m.TipoMovimento}">${m.TipoMovimento}</span></td>
             <td>${m.Material}</td>
-            <td>${m.Deposito} ${m.DepositoDest ? '➔ ' + m.DepositoDest : ''}</td>
+            <td>${m.Deposito} ${m.DepositoDest ? '-> ' + m.DepositoDest : ''}</td>
             <td>${m.Lote}</td>
             <td style="font-weight:700;">${m.Quantidade} ${m.Unidade}</td>
             <td>${m.Operador || 'SISTEMA'}</td>
@@ -325,7 +325,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const toast = document.createElement('div');
     toast.className = `toast ${type}`;
     toast.innerHTML = `
-      <span style="font-size: 1.2rem;">${type === 'success' ? '✅' : '⚠️'}</span>
       <div style="flex:1; font-size:0.9rem; font-weight:600;">${message}</div>
     `;
     container.appendChild(toast);
@@ -374,7 +373,7 @@ document.addEventListener('DOMContentLoaded', () => {
         btpTestFeedback.style.background = 'rgba(239, 68, 68, 0.2)';
         btpTestFeedback.style.color = '#f87171';
         btpTestFeedback.style.border = '1px solid #ef4444';
-        btpTestFeedback.innerHTML = '⚠️ Informe o Usuário e a Senha do SAP BTP antes de testar.';
+        btpTestFeedback.innerHTML = 'Informe o Usuário e a Senha do SAP BTP antes de testar.';
         return;
       }
 
@@ -382,7 +381,7 @@ document.addEventListener('DOMContentLoaded', () => {
       btpTestFeedback.style.background = 'rgba(0, 112, 242, 0.2)';
       btpTestFeedback.style.color = '#38bdf8';
       btpTestFeedback.style.border = '1px solid #0070f2';
-      btpTestFeedback.innerHTML = '⏳ Testando conexão com o SAP BTP via Proxy...';
+      btpTestFeedback.innerHTML = 'Testando conexão com o SAP BTP via Proxy...';
 
       try {
         const resp = await fetch('/api/btp-test', {
@@ -396,23 +395,23 @@ document.addEventListener('DOMContentLoaded', () => {
           btpTestFeedback.style.background = 'rgba(16, 185, 129, 0.2)';
           btpTestFeedback.style.color = '#34d399';
           btpTestFeedback.style.border = '1px solid #10b981';
-          btpTestFeedback.innerHTML = `✅ <strong>Conexão bem-sucedida!</strong><br>Status: 200 OK — OData V4 autenticado.<br>Token CSRF obtido com sucesso do SAP BTP!`;
+          btpTestFeedback.innerHTML = `<strong>Conexão bem-sucedida!</strong><br>Status: 200 OK — OData V4 autenticado.<br>Token CSRF obtido com sucesso do SAP BTP!`;
         } else if (result.status === 401) {
           btpTestFeedback.style.background = 'rgba(239, 68, 68, 0.2)';
           btpTestFeedback.style.color = '#f87171';
           btpTestFeedback.style.border = '1px solid #ef4444';
-          btpTestFeedback.innerHTML = `❌ <strong>Erro 401 (Não Autorizado)</strong>: Usuário ou senha incorretos para o SAP BTP.`;
+          btpTestFeedback.innerHTML = `<strong>Erro 401 (Não Autorizado)</strong>: Usuário ou senha incorretos para o SAP BTP.`;
         } else {
           btpTestFeedback.style.background = 'rgba(245, 158, 11, 0.2)';
           btpTestFeedback.style.color = '#fbbf24';
           btpTestFeedback.style.border = '1px solid #f59e0b';
-          btpTestFeedback.innerHTML = `⚠️ Resposta SAP BTP: Status ${result.status || 'Erro'}. Detalhes: ${result.message || result.error || 'Verifique o endpoint'}`;
+          btpTestFeedback.innerHTML = `Resposta SAP BTP: Status ${result.status || 'Erro'}. Detalhes: ${result.message || result.error || 'Verifique o endpoint'}`;
         }
       } catch (err) {
         btpTestFeedback.style.background = 'rgba(239, 68, 68, 0.2)';
         btpTestFeedback.style.color = '#f87171';
         btpTestFeedback.style.border = '1px solid #ef4444';
-        btpTestFeedback.innerHTML = `❌ Erro ao contatar proxy local: ${err.message}`;
+        btpTestFeedback.innerHTML = `Erro ao contatar proxy local: ${err.message}`;
       }
     });
   }
@@ -430,7 +429,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.sapStore.setBtpMode(isBtp, config);
     updateHeaderStatus();
     btpConfigModal.style.display = 'none';
-    showToast(isBtp ? '✅ Conexão SAP BTP ativada! Atualizando dados...' : 'Modo Demonstração ativado.', 'success');
+    showToast(isBtp ? 'Conexao SAP BTP ativada. Atualizando dados...' : 'Modo Demonstracao ativado.', 'success');
 
     // Atualiza tabelas e gráficos com os dados reais do SAP BTP
     await refreshCockpit();
@@ -439,7 +438,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function updateHeaderStatus() {
     if (window.sapStore.isBtpConnected) {
       headerStatusPill.className = 'status-pill mode-btp';
-      headerStatusText.textContent = '🟢 SAP BTP OData V4 Real';
+      headerStatusText.textContent = 'SAP BTP OData V4 Real';
     } else {
       headerStatusPill.className = 'status-pill';
       headerStatusText.textContent = 'Modo Demo / Offline';
@@ -493,13 +492,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const updateSoundUI = () => {
       const active = window.industrialBeeper.soundEnabled;
       btnToggleSound.classList.toggle('active', active);
-      soundIcon.textContent = active ? '🔊' : '🔇';
+      soundIcon.textContent = active ? 'ON' : 'OFF';
     };
     updateSoundUI();
     btnToggleSound.addEventListener('click', () => {
       window.industrialBeeper.setSound(!window.industrialBeeper.soundEnabled);
       updateSoundUI();
-      showToast(window.industrialBeeper.soundEnabled ? 'Bip Industrial Ativado 🔊' : 'Bip Silenciado 🔇', 'info');
+      showToast(window.industrialBeeper.soundEnabled ? 'Bip Industrial Ativado' : 'Bip Silenciado', 'info');
     });
   }
 
@@ -507,20 +506,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const updateHapticUI = () => {
       const active = window.industrialBeeper.hapticEnabled;
       btnToggleHaptic.classList.toggle('active', active);
-      hapticIcon.textContent = active ? '📳' : '📴';
+      hapticIcon.textContent = active ? 'ON' : 'OFF';
     };
     updateHapticUI();
     btnToggleHaptic.addEventListener('click', () => {
       window.industrialBeeper.setHaptic(!window.industrialBeeper.hapticEnabled);
       updateHapticUI();
-      showToast(window.industrialBeeper.hapticEnabled ? 'Vibração Háptica Ativada 📳' : 'Vibração Desativada 📴', 'info');
+      showToast(window.industrialBeeper.hapticEnabled ? 'Vibracao Haptica Ativada' : 'Vibracao Desativada', 'info');
     });
   }
 
   if (btnTestFeedback) {
     btnTestFeedback.addEventListener('click', () => {
       window.industrialBeeper.testAll();
-      showToast('⚡ Teste: Bip Cortante + Vibração Háptica!', 'success');
+      showToast('Teste: Bip Cortante + Vibracao Haptica!', 'success');
     });
   }
 
@@ -540,9 +539,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!queue || queue.length === 0) {
       queueListContainer.innerHTML = `
         <div style="text-align:center; padding: 40px 20px; color: var(--text-muted);">
-          <div style="font-size: 2.2rem; margin-bottom: 8px;">✨</div>
-          <strong style="color: #34d399; font-size: 0.95rem;">Fila 100% Sincronizada!</strong>
-          <p style="font-size: 0.8rem; margin-top: 4px;">Nenhum apontamento pendente. Todos os registros estão consolidados no SAP BTP.</p>
+          <strong style="color: #34d399; font-size: 0.95rem;">Fila 100% Sincronizada</strong>
+          <p style="font-size: 0.8rem; margin-top: 4px;">Nenhum apontamento pendente. Todos os registros estao consolidados no SAP BTP.</p>
         </div>
       `;
       return;
@@ -552,13 +550,13 @@ document.addEventListener('DOMContentLoaded', () => {
       const m = item.movData;
       const hora = new Date(item.createdAt).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
       let statusClass = 'status-pending';
-      let statusText = '🟡 Pendente';
+      let statusText = 'Pendente';
       if (item.status === 'SYNCING') {
         statusClass = 'status-syncing';
-        statusText = '⏳ Sincronizando...';
+        statusText = 'Sincronizando...';
       } else if (item.status === 'FAILED') {
         statusClass = 'status-failed';
-        statusText = '🔴 Erro de Envio';
+        statusText = 'Erro de Envio';
       }
 
       return `
@@ -570,7 +568,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 ${m.material} — <span style="color:#34d399;">${m.quantidade} ${m.unidade || 'UN'}</span>
               </div>
               <div style="font-size:0.75rem; color:var(--text-secondary); margin-top:2px;">
-                Lote: <strong>${m.lote}</strong> | Centro: ${m.centro} | Dep: ${m.deposito} ${m.depositoDest ? '➔ ' + m.depositoDest : ''} ${m.ordemProducao ? '| OP: ' + m.ordemProducao : ''}
+                Lote: <strong>${m.lote}</strong> | Centro: ${m.centro} | Dep: ${m.deposito} ${m.depositoDest ? '-> ' + m.depositoDest : ''} ${m.ordemProducao ? '| OP: ' + m.ordemProducao : ''}
               </div>
               ${item.error ? `<div style="font-size:0.72rem; color:#f87171; margin-top:3px;">Motivo: ${item.error}</div>` : ''}
             </div>

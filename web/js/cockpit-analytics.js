@@ -61,7 +61,6 @@ class CockpitAnalytics {
       const pct = Math.min(100, Math.round((parseFloat(a.Quantidade) / a.threshold.min) * 100));
       return `
         <div class="alert-item ${isUrgente ? 'alert-urgente' : 'alert-critico'}">
-          <div class="alert-item-icon">${isUrgente ? '🔴' : '🟡'}</div>
           <div class="alert-item-body">
             <div class="alert-item-title">
               <strong>${a.Material}</strong>
@@ -83,7 +82,7 @@ class CockpitAnalytics {
               document.getElementById('inputMaterial').value = '${a.Material}';
               document.getElementById('inputMaterial').dispatchEvent(new Event('input'));
               document.getElementById('btnMov101').click();
-            ">➕ Repor</button>
+            ">Repor</button>
           </div>
         </div>
       `;

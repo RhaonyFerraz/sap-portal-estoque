@@ -1,4 +1,4 @@
-# 🏭 SAP BTP — Portal de Logística & Apontamento de Estoque RF
+# SAP BTP — Portal de Logística & Apontamento de Estoque RF
 
 <div align="center">
 
@@ -8,82 +8,83 @@
 ![RAP](https://img.shields.io/badge/RAP-Restful%20ABAP-1A3C5E?style=for-the-badge)
 ![Offline](https://img.shields.io/badge/Offline-Resiliente-F59E0B?style=for-the-badge)
 
-**Solução de chão de fábrica que elimina licenças caras de usuário SAP.**  
-Operadores apontam movimentações via tablet/coletor RF/celular, integrado ao SAP BTP ABAP Cloud via OData V4 em tempo real.
+**Solução de chão de fábrica que otimiza custos de licenças de usuário SAP.**  
+Operadores realizam apontamentos via tablet, coletor de dados RF ou smartphone, integrados ao SAP BTP ABAP Cloud via OData V4 em tempo real.
 
 </div>
 
 ---
 
-## 📸 Screenshots
+## Screenshots do Sistema
 
-### 🎯 Coletor RF — Apontamento de Movimentação
-![Coletor RF](web/docs/screenshots/coletor-rf.jpg)
+### Coletor RF — Apontamento de Movimentação
+![Coletor RF](web/docs/screenshots/coletor-rf.png)
 
-> Interface de chão de fábrica otimizada para operadores com leitores de código de barras Zebra e Honeywell. Bip industrial, flash visual e feedback háptico em cada bipagem.
-
----
-
-### 📊 Cockpit Gerencial — Gráficos & Alertas de Estoque Crítico
-![Cockpit Gerencial](web/docs/screenshots/cockpit.jpg)
-
-> Dashboard com Chart.js: gráfico de barras por material, donut por depósito, linha de movimentações nos últimos 7 dias. Alertas automáticos de estoque abaixo do mínimo.
+> Interface de chão de fábrica desenvolvida para operadores com coletores e leitores de código de barras Zebra e Honeywell. Tipos de movimento 101 / 261 / 311, bip sonoro industrial via Web Audio, feedback visual e háptico a cada leitura. Painel auxiliar com amostras de GS1-128 e DataMatrix multi-dados.
 
 ---
 
-### 📦 Fila Offline — Resiliência em Áreas Sem Sinal
-![Fila Offline](web/docs/screenshots/fila-offline.jpg)
+### Cockpit & ROI — Métricas, KPIs e Alertas de Estoque Crítico
+![Cockpit ROI](web/docs/screenshots/cockpit-roi.png)
 
-> Apontamentos são salvos localmente quando o Wi-Fi cai no galpão. Sincronização automática com o SAP BTP assim que a conexão é restabelecida — o operador nunca fica travado.
-
----
-
-### 📱 PWA — Instalável no Celular e Coletor Zebra
-![Mobile PWA](web/docs/screenshots/mobile-pwa.jpg)
-
-> Funciona como app nativo em Android e iOS. Camera de scanner integrada via browser para leitura de códigos GS1-128 e DataMatrix com preenchimento automático de Material, Lote, Quantidade e Ordem de Produção.
+> Business Case com calculadora de viabilidade e redução de TCO em licenças SAP. Métricas dinâmicas de materiais, volume total e histórico de movimentações. Monitoramento em tempo real com alertas automáticos de estoque crítico.
 
 ---
 
-## 🎯 O Problema que Resolvemos
+### SAP Fiori Elements — Preview da CDS View no SAP BTP
+![Fiori Preview](web/docs/screenshots/fiori-preview.png)
 
-Empresas que utilizam SAP ERP (ECC ou S/4HANA) enfrentam custo elevado para dar acesso a **operadores de galpão, almoxarifes e apontadores de chão de fábrica**.
+> Visualização dos saldos via SAP Fiori Elements gerado a partir do Service Binding OData V4 no SAP BTP ABAP Environment. Dados persistidos na tabela `ZTAB_SALDO_RF` no SAP HANA.
 
-| Modelo | Custo Anual (50 operadores) |
+---
+
+### Impressão de Etiquetas Industriais
+![Etiqueta Industrial](web/docs/screenshots/etiqueta.png)
+
+> Modal de impressão com pré-visualização ao vivo no padrão Code128. Configuração de parâmetros, número de cópias e dados complementares. Compatível com impressoras térmicas Zebra e impressoras padrão.
+
+---
+
+## Contexto e Proposta de Valor
+
+Empresas que utilizam SAP ERP (ECC ou S/4HANA) frequentemente encontram barreiras de custo para licenciar todos os operadores de galpão, almoxarifes e conferentes de produção.
+
+| Modelo | Custo Anual Estimado (50 operadores) |
 |---|---|
-| **SAP Licenças Individuais Tradicionais** | ~US$ 90.000/ano |
-| **Portal SAP BTP (essa solução)** | ~US$ 6.000/ano |
-| **💰 Economia Estimada** | **~US$ 84.000/ano** |
+| Licenças Individuais SAP Tradicionais | ~US$ 90.000/ano |
+| Portal SAP BTP Centralizado (esta arquitetura) | ~US$ 7.800/ano |
+| **Redução Estimada** | **~US$ 82.200/ano** |
 
-> O SAP BTP permite hospedar uma aplicação web customizada que consome o SAP via OData V4 de forma centralizada, usando apenas **runtime de BTP** — muito mais barato que licenças por usuário.
+> O SAP BTP viabiliza a execução de aplicações leves de borda conectadas via OData V4 sob runtime centralizado, reduzindo expressivamente o custo por terminal sem violar as diretrizes de Digital Access.
 
 ---
 
-## ⚡ Funcionalidades
+## Funcionalidades Principais
 
-| Módulo | Funcionalidade |
+| Módulo | Descrição Técnica |
 |---|---|
-| 🎯 **Coletor RF** | Bipagem USB/Bluetooth Zebra & Honeywell, bip industrial (Web Audio API), flash visual |
-| 📊 **Cockpit** | Chart.js: barras, donut, linha — KPIs dinâmicos, alertas de estoque crítico |
-| 📡 **BTP Real** | POST OData V4, CSRF token handshake, Basic Auth via proxy Node.js seguro |
-| 📦 **Fila Offline** | LocalStorage, auto-sync no evento `online`, heartbeat 30s, modal de status |
-| 📱 **PWA** | `manifest.json`, Service Worker v1.0.3, ícones 192/512px, install prompt nativo |
-| 🔊 **Feedback** | Bip piezoelétrico 2700Hz (onda quadrada), vibração háptica `navigator.vibrate()` |
-| 🏷️ **GS1-128** | Parser multi-dados AI (01, 10, 37, 00) — preenche 4 campos com 1 bipagem |
-| 🖨️ **Etiquetas** | Modal de impressão com JsBarcode (Code128 / QR Code) |
+| **Coletor RF** | Suporte a leitores USB/Bluetooth Zebra e Honeywell, sinalizador piezoelétrico (Web Audio API) e flash visual |
+| **Cockpit & ROI** | Gráficos Chart.js, indicadores de estoque mínimo e simulação de custos |
+| **Integração BTP** | Chamadas OData V4, autenticação Basic / OAuth e handshake de token CSRF |
+| **Fila Offline** | Armazenamento local resiliente, sincronização automática ao restabelecer rede e heartbeat periódico |
+| **PWA** | Service Worker, manifesto de aplicativo e instalação nativa em terminais Android e Windows |
+| **Feedback Háptico** | Vibração física via Vibration API em conjunto com alerta auditivo industrial |
+| **Parser GS1-128** | Decodificação automática de múltiplos identificadores de aplicação (AI 01, 10, 37, etc.) em uma única leitura |
+| **Etiquetagem** | Renderização vetorial SVG de código de barras Code128 |
 
 ---
 
-## 🏗️ Arquitetura
+## Arquitetura da Solução
 
 ```
-Operador / Coletor Zebra
+Operador / Coletor Zebra / Celular
         │
         ▼
  ┌─────────────────────────────┐
  │   Portal Web (PWA)          │
  │   HTML + Vanilla JS         │
  │   Service Worker v1.0.3     │
+ │   Fila Offline automática   │
  └────────────┬────────────────┘
               │ HTTP via Proxy Local
               ▼
@@ -108,17 +109,17 @@ Operador / Coletor Zebra
 
 ---
 
-## 📦 Movimentações Suportadas
+## Movimentações Suportadas
 
 | Código | Nome SAP | Fluxo | Validação |
 |:---:|---|---|---|
-| **101** | Entrada / Recebimento | Fornecedor ➔ Depósito | Cria saldo automaticamente |
-| **261** | Baixa / Consumo | Depósito ➔ Ordem de Produção | ⚠️ Valida saldo disponível |
-| **311** | Transferência entre Depósitos | Dep. Origem ➔ Dep. Destino | ⚠️ Valida saldo origem |
+| **101** | Entrada / Recebimento | Fornecedor -> Depósito | Cria saldo automaticamente |
+| **261** | Baixa / Consumo | Depósito -> Ordem de Produção | Valida saldo disponível |
+| **311** | Transferência entre Depósitos | Dep. Origem -> Dep. Destino | Valida saldo origem |
 
 ---
 
-## 📁 Estrutura do Projeto
+## Estrutura do Projeto
 
 ```
 sap-portal-estoque/
@@ -129,6 +130,7 @@ sap-portal-estoque/
 │   ├── sw.js                           # Service Worker v1.0.3
 │   ├── css/style.css                   # Design System Fiori Dark
 │   ├── icons/                          # Ícones PWA (SVG, 192px, 512px)
+│   ├── docs/screenshots/               # Screenshots do sistema
 │   └── js/
 │       ├── app.js                      # Controller principal
 │       ├── store.js                    # OData V4 + LocalStorage
@@ -149,16 +151,16 @@ sap-portal-estoque/
 
 ---
 
-## 🚀 Como Executar
+## Como Executar
 
-### Modo Demonstração (sem SAP)
+### Modo Demonstração (sem SAP — 100% offline)
 ```bash
 # Clone o repositório
 git clone https://github.com/RhaonyFerraz/sap-portal-estoque.git
 cd sap-portal-estoque
 
-# Abra diretamente no browser
-# Arraste web/index.html para o Chrome — funciona 100% offline com dados demo
+# Abra direto no browser
+# Arraste web/index.html para o Chrome — funciona com dados de demonstração
 ```
 
 ### Modo SAP BTP Real
@@ -169,51 +171,49 @@ npm install
 # Inicie o servidor proxy (porta 3000)
 node server.mjs
 
-# Acesse
-# http://localhost:3000
+# Acesse no browser
+open http://localhost:3000
 
-# No portal, clique em "⚙️ Conectar BTP" e informe:
-# - URL do Service Binding OData V4
-# - Usuário e senha SAP BTP
+# No portal -> Botão de configuração de BTP -> informe URL + usuário + senha
 ```
 
 ---
 
-## 🛠️ Ativação no SAP BTP (VS Code + SAP ADT)
+## Ativação no SAP BTP (VS Code + SAP ADT)
 
 Consulte o guia completo em [`docs/sap_adt_activation_guide.md`](docs/sap_adt_activation_guide.md).
 
 **Ordem de criação dos objetos ABAP:**
 
 ```
-1. Tabelas DDIC    → ZTAB_SALDO_RF, ZTAB_ESTOQUE_RF
-2. Classes ABAP    → ZCL_ESTOQUE_RF, ZCL_POPULATE_ESTOQUE_RF
-3. Carga de Dados  → F9 em ZCL_POPULATE_ESTOQUE_RF
-4. CDS Views       → ZR_SALDO_RF → ZR_ESTOQUE_RF → ZC_SALDO_RF → ZC_ESTOQUE_RF
-5. RAP             → BDEF + ZBP_R_ESTOQUE_RF (Behavior Pool)
-6. Service         → ZUI_ESTOQUE_RF_O4 → Publish como OData V4
-7. Conectar Portal → Botão "⚙️ Conectar BTP" → colar URL + credenciais
+1. Tabelas DDIC    -> ZTAB_SALDO_RF, ZTAB_ESTOQUE_RF
+2. Classes ABAP    -> ZCL_ESTOQUE_RF, ZCL_POPULATE_ESTOQUE_RF
+3. Carga de Dados  -> F9 em ZCL_POPULATE_ESTOQUE_RF
+4. CDS Views       -> ZR_SALDO_RF -> ZR_ESTOQUE_RF -> ZC_SALDO_RF -> ZC_ESTOQUE_RF
+5. RAP             -> BDEF + ZBP_R_ESTOQUE_RF (Behavior Pool)
+6. Service         -> ZUI_ESTOQUE_RF_O4 -> Publish como OData V4
+7. Conectar Portal -> "Conectar BTP" -> colar URL + credenciais
 ```
 
 ---
 
-## 🏆 Tecnologias
+## Tecnologias Empregadas
 
 | Camada | Tecnologia |
 |---|---|
-| **Backend SAP** | ABAP Cloud, RAP, CDS View Entities, SAP HANA |
+| **Backend SAP** | ABAP Cloud, RAP (Restful ABAP Programming Model), CDS View Entities, SAP HANA |
 | **API** | OData V4 (SAP BTP ABAP Environment) |
-| **Frontend** | HTML5, Vanilla CSS, Vanilla JavaScript (sem frameworks) |
+| **Frontend** | HTML5, Vanilla CSS, Vanilla JavaScript (zero dependências pesadas) |
 | **PWA** | Service Worker, Web App Manifest, Cache API |
 | **Gráficos** | Chart.js v4.4.4 |
 | **Barcodes** | JsBarcode v3.11.6, GS1-128 Parser customizado |
-| **Áudio** | Web Audio API (bip piezoelétrico sintetizado) |
+| **Áudio** | Web Audio API (bip piezoelétrico 2700Hz sintetizado) |
 | **Offline** | localStorage + auto-sync por evento `online` |
-| **Design** | Fiori Dark Horizon, Glassmorphism, Inter Font |
+| **Design** | Fiori Dark Horizon, Glassmorphism, Tipografia Inter |
 
 ---
 
-## 👤 Autor
+## Autor
 
 **Rhaony Ferraz**  
 Desenvolvedor SAP BTP & ABAP Cloud
@@ -221,10 +221,10 @@ Desenvolvedor SAP BTP & ABAP Cloud
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Rhaony%20Ferraz-0077B5?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/rhaony-ferraz)
 [![GitHub](https://img.shields.io/badge/GitHub-RhaonyFerraz-181717?style=for-the-badge&logo=github)](https://github.com/RhaonyFerraz)
 
-> Projeto desenvolvido para demonstrar integração entre **SAP BTP ABAP Cloud** e aplicações web modernas, com foco em **redução de TCO de licenças SAP** em ambientes de chão de fábrica.
+> Projeto desenvolvido para demonstrar integração entre **SAP BTP ABAP Cloud** e aplicações web modernas de chão de fábrica, com foco em **redução de TCO de licenças SAP**.
 
 ---
 
-## 📄 Licença
+## Licença
 
 MIT License — Livre para uso e adaptação em projetos comerciais e educacionais.
