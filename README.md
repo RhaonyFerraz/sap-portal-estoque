@@ -265,7 +265,7 @@ Consulte o guia completo em [`docs/sap_adt_activation_guide.md`](docs/sap_adt_ac
 **Rhaony Ferraz**  
 Desenvolvedor SAP BTP & ABAP Cloud
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Rhaony%20Ferraz-0077B5?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/rhaony-ferraz)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Rhaony%20Ferraz-0077B5?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/rhaony-ferraz-5a181377/)
 [![GitHub](https://img.shields.io/badge/GitHub-RhaonyFerraz-181717?style=for-the-badge&logo=github)](https://github.com/RhaonyFerraz)
 
 > Projeto desenvolvido para demonstrar integração entre **SAP BTP ABAP Cloud** e aplicações web modernas de chão de fábrica, com foco em **redução de TCO de licenças SAP**.
